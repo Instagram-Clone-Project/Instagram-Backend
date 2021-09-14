@@ -1,12 +1,16 @@
 # Instagram-Backend
+> 인스타그램 클론 코딩 프로젝트입니다.
 
-사용 기술
+## 사용 기술
 `Backend`
 - Java 11
 - SpringBoot
 - Spring Data JPA
 - Spring Security
 - MariaDB
+`Frontend`
+
+`Diploy`
 
 <br>
 
