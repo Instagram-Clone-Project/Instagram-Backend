@@ -1,15 +1,15 @@
 package com.project.instagramclone.web.comment.dto;
 
 import com.project.instagramclone.domain.reply.entity.Comment;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommentSaveDto {
 
     private String content;

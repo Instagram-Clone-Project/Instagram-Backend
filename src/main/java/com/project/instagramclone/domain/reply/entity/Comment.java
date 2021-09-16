@@ -1,5 +1,6 @@
 package com.project.instagramclone.domain.reply.entity;
 
+import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,4 +44,10 @@ public class Comment {
     @Builder.Default    // 값이 초기화 돼 있는 경우 빌더로 의해서 변경될수 있다고 명시
     private List<Comment> children = new ArrayList<>();
 
+
+
+
+    public void update(String content){
+        this.content =  content;
+    }
 }
