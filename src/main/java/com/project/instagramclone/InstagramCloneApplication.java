@@ -10,4 +10,8 @@ public class InstagramCloneApplication {
         SpringApplication.run(InstagramCloneApplication.class, args);
     }
 
+
+    /**
+     * test
+     */
 }
