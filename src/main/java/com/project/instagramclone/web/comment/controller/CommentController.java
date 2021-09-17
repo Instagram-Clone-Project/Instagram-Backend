@@ -14,14 +14,14 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/api/{post_id}/comment")
-    public Comment commentSave(@RequestBody CommentSaveDto commentSaveDto){
+    public void commentSave(@RequestBody CommentSaveDto commentSaveDto){
 
-        return commentService.commentSave(commentSaveDto);
+        commentService.commentSave(commentSaveDto);
     }
 
     @PutMapping("/api/comment/{comment_id}")
-    public Comment commentUpdate(@PathVariable("comment_id") Long commentId, @RequestBody CommentUpdateDto updateDto){
-        return commentService.commentUpdate(commentId,updateDto);
+    public void commentUpdate(@PathVariable("comment_id") Long commentId, @RequestBody CommentUpdateDto updateDto){
+            commentService.commentUpdate(commentId,updateDto);
     }
 
     @DeleteMapping("/api/comment/{comment_id}")
@@ -30,7 +30,8 @@ public class CommentController {
     }
 
     @PostMapping("/api/{parent_id}/nestedcomment")
-    public Comment nestedCommentSave(@PathVariable("parent_id")Long parentId, @RequestBody CommentSaveDto commentSaveDto){
-        return commentService.nestedCommentSave(parentId, commentSaveDto);
+    public void nestedCommentSave(@PathVariable("parent_id")Long parentId,
+                                     @RequestBody CommentSaveDto commentSaveDto){
+        commentService.nestedCommentSave(parentId, commentSaveDto);
     }
 }
