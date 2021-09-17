@@ -26,10 +26,10 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
-//
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "post_id")
-    private Post post;
+
+//   @ManyToOne(fetch = FetchType.LAZY)
+//   @JoinColumn(name = "post_id")
+//    private Post post;
 
 //
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -45,10 +45,20 @@ public class Comment {
     @Builder.Default    // 값이 초기화 돼 있는 경우 빌더로 의해서 변경될수 있다고 명시
     private List<Comment> children = new ArrayList<>();
 
+    public void setParent(Comment comment){
+        this.parent = comment;
+    }
 
-
+    public void setChildren(Comment children){
+        this.children.add(children);
+    }
 
     public void update(String content){
         this.content =  content;
+    }
+
+    public void setRelationComment(Comment parent, Comment children){
+        parent.setChildren(children);
+        children.setParent(parent);
     }
 }

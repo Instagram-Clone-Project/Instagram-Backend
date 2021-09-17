@@ -7,6 +7,7 @@ import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -80,5 +81,36 @@ class CommentServiceTest {
 
 
         assertThat(list.size()).isEqualTo(0);
+    }
+
+
+    @Test
+    @Transactional
+    public void nestedCommentSave() throws Exception{
+        //given
+        CommentSaveDto commentParent = new CommentSaveDto();
+        commentParent.setContent("부모 댓글");
+
+
+        CommentSaveDto commentChildren = new CommentSaveDto();
+        commentChildren.setContent("자식 댓글 (대댓글)");
+
+
+        // when
+        Comment parent = commentService.commentSave(commentParent);
+        Comment children = commentService.nestedCommentSave(parent.getId(),commentChildren);
+        commentRepository.flush();
+
+        Comment parentToChild = parent.getChildren().get(0);
+        Comment childToParent = children.getParent();
+        // then
+
+
+        assertThat(parentToChild.getId()).isEqualTo(children.getId());
+        assertThat(parentToChild.getContent()).isEqualTo(children.getContent());
+
+        assertThat(childToParent.getId()).isEqualTo(parent.getId());
+        assertThat(childToParent.getContent()).isEqualTo(parent.getContent());
+
     }
 }

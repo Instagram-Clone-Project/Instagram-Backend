@@ -42,4 +42,19 @@ public class CommentService {
 
         commentRepository.delete(comment);
     }
+
+    @Transactional
+    public Comment nestedCommentSave(Long parentCommentId, CommentSaveDto comment){
+
+        Comment parent = commentRepository.findById(parentCommentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
+
+        Comment children = commentRepository.save(comment.toEntity());
+
+        parent.setRelationComment(parent,children);
+
+        commentRepository.save(children);
+
+        return children;
+    }
+
 }
