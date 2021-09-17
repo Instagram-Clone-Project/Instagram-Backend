@@ -17,25 +17,27 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long createPost(Post post) {
+    public Long postSave(Post post) {
         postRepository.save(post);
         return post.getPostId();
     }
 
     @Transactional
     public void removePost(Post post) {
-        postRepository.remove(post);
+        postRepository.delete(post);
     }
 
     @Transactional
     public void updatePost(Long id, String content) {
-        Post findPost = postRepository.findOne(id);
+//        Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+        Post findPost = findOne(id);
         findPost.setContent(content);
+//        findPost.setPhoto(photo);
         findPost.setModifiedDate(LocalDateTime.now());
     }
 
     public Post findOne(Long postId) {
-        return postRepository.findOne(postId);
+        return postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
     }
 
     public List<Post> findPosts() {
