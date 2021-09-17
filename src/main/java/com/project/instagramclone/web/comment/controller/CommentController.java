@@ -28,4 +28,9 @@ public class CommentController {
     public void commentDelete(@PathVariable("comment_id") Long commentId){
          commentService.commetDelete(commentId);
     }
+
+    @PostMapping("/api/{parent_id}/nestedcomment")
+    public Comment nestedCommentSave(@PathVariable("parent_id")Long parentId, @RequestBody CommentSaveDto commentSaveDto){
+        return commentService.nestedCommentSave(parentId, commentSaveDto);
+    }
 }
