@@ -1,5 +1,6 @@
 package com.project.instagramclone.domain.reply.entity;
 
+import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,9 +27,9 @@ public class Comment {
     private String content;
 
 //
-//   @ManyToOne(fetch = FetchType.LAZY)
-//   @JoinColumn(name = "post_id")
-//    private Post post;
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "post_id")
+    private Post post;
 
 //
 //    @ManyToOne(fetch = FetchType.LAZY)
