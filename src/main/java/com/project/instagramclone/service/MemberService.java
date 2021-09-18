@@ -1,9 +1,8 @@
 package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.member.MemberRepository;
-import com.project.instagramclone.web.user.dto.SignUpRequestDto;
+import com.project.instagramclone.web.member.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,7 @@ public class MemberService {
     private final PasswordEncoder encoder;
 
     @Transactional
-    public Long save(SignUpRequestDto signUpRequestDto) {
+    public Long signUp(SignUpRequestDto signUpRequestDto) {
 
         //암호화된 비밀번호
         String encPassword = encoder.encode(signUpRequestDto.getPassword());

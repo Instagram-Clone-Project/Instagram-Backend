@@ -21,7 +21,7 @@ public class Member extends BaseTimeEntity {
     private String email;
 
     @Column(nullable = false)
-    private String memberName;
+    private String name;
 
     @Column(nullable = false)
     private String id;
@@ -41,6 +41,7 @@ public class Member extends BaseTimeEntity {
 
     private String description;
 
+    @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
     private String profileImgUrl;

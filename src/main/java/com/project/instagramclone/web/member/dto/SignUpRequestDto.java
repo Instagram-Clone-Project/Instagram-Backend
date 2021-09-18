@@ -1,4 +1,4 @@
-package com.project.instagramclone.web.user.dto;
+package com.project.instagramclone.web.member.dto;
 
 import com.project.instagramclone.domain.member.Member;
 import com.project.instagramclone.domain.member.MemberRole;
@@ -12,14 +12,14 @@ import lombok.*;
 public class SignUpRequestDto {
 
     private String email;
-    private String memberName;
+    private String name;
     private String id;
     private String password;
 
     public Member toEntity() {
         return Member.builder()
                 .email(email)
-                .memberName(memberName)
+                .name(name)
                 .id(id)
                 .password(password)
                 .role(MemberRole.USER)
