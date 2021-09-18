@@ -35,13 +35,13 @@ class MemberServiceTest {
 
         SignUpRequestDto signUpRequestDto = SignUpRequestDto.builder()
                 .email(email)
-                .memberName(memberName)
+                .name(memberName)
                 .id(id)
                 .password(password)
                 .build();
 
         //when
-        Long mno = memberService.save(signUpRequestDto);
+        Long mno = memberService.signUp(signUpRequestDto);
 
         Optional<Member> member = memberRepository.findById(mno);
 
@@ -49,7 +49,7 @@ class MemberServiceTest {
         boolean encodeResult = passwordEncoder.matches(password, member.get().getPassword());
 
         assertThat(member.get().getEmail()).isEqualTo(email);
-        assertThat(member.get().getMemberName()).isEqualTo(memberName);
+        assertThat(member.get().getName()).isEqualTo(memberName);
         assertThat(member.get().getId()).isEqualTo(id);
         assertThat(encodeResult).isEqualTo(true);
     }

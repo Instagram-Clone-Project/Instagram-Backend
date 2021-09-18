@@ -14,3 +14,18 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+
+uploadFile:
+  path: C:/upload/
+
+cloud:
+  aws:
+    credentials:
+      accessKey: 본인 accessKey
+      secretKey: 본인 secretKey
+    stack:
+      auto: false
+    s3:
+      bucket: ssc-instagram
+    region:
+      static: ap-northeast-2
