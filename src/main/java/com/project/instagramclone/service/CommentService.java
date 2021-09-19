@@ -23,8 +23,11 @@ public class CommentService {
 
 
     @Transactional
-    public Comment commentSave(CommentSaveDto commentSaveDto) {
+    public Comment commentSave(Long postId ,CommentSaveDto commentSaveDto) {
+        Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다"));
 
+        Comment comment = commentSaveDto.toEntity();
+        comment.setPost(post);
         return commentRepository.save(commentSaveDto.toEntity());
     }
 

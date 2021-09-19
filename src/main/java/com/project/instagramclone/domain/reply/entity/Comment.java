@@ -2,6 +2,7 @@ package com.project.instagramclone.domain.reply.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.project.instagramclone.domain.member.Member;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import lombok.AllArgsConstructor;
@@ -30,14 +31,14 @@ public class Comment {
     private String content;
 
 
-//   @ManyToOne(fetch = FetchType.LAZY)
-//   @JoinColumn(name = "post_id")
-//    private Post post;
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "post_id")
+    private Post post;
 
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,6 +53,11 @@ public class Comment {
         parent.setChildren(children);
         children.setParent(parent);
     }
+
+    public void setPost(Post post){
+        this.post = post;
+    }
+
 
     public void setParent(Comment comment){
         this.parent = comment;
