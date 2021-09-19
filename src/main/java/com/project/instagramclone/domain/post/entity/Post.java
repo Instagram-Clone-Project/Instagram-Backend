@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -22,8 +23,8 @@ public class Post {
 //    @OneToMany(mappedBy = "post")
 //    private List<Comment> comments = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "post")
-//    private List<Photo> photos = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Photo> photos = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "post")
 //    private List<Like> Likes = new ArrayList<>();
