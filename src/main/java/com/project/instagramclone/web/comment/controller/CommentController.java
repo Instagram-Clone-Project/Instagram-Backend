@@ -1,6 +1,5 @@
 package com.project.instagramclone.web.comment.controller;
 
-import com.project.instagramclone.domain.reply.entity.Comment;
 import com.project.instagramclone.service.CommentService;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
@@ -26,7 +25,7 @@ public class CommentController {
 
     @DeleteMapping("/api/comment/{comment_id}")
     public void commentDelete(@PathVariable("comment_id") Long commentId){
-         commentService.commetDelete(commentId);
+         commentService.commentDelete(commentId);
     }
 
     @PostMapping("/api/{parent_id}/nestedcomment")
