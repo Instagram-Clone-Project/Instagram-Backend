@@ -5,6 +5,7 @@ import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.comment.entity.Comment;
 import com.project.instagramclone.domain.comment.repository.CommentRepository;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
+import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,28 +52,35 @@ class CommentServiceTest {
         assertThat(comment.getId()).isEqualTo(saveComment.getId());
     }
 
-//    @Test
-//    public void commentUpdate() throws Exception{
-//        //given
-//        CommentSaveDto commentSaveDto = new CommentSaveDto();
-//        commentSaveDto.setContent("수정 전");
-//
-//        CommentUpdateDto commentUpdateDto = new CommentUpdateDto();
-//        commentUpdateDto.setContent("수정 후");
-//        // when
-//
-//        Comment before = commentService.commentSave(commentSaveDto);
-//        System.out.println(before.getId());
-//        Comment after = commentService.findById(before.getId());
-//
-//        commentService.commentUpdate(before.getId(),commentUpdateDto);
-//        commentRepository.flush();
-//
-//        Comment comment = commentService.findById(before.getId());
-//        // then
-//
-//        assertThat(comment.getContent()).isEqualTo(commentUpdateDto.getContent());
-//    }
+    @Test
+    public void commentUpdate() throws Exception{
+        //given
+
+
+        Post post = new Post();
+        post.setContent("first post");
+        postRepository.save(post);
+        postRepository.flush();
+
+        CommentSaveDto commentSaveDto = new CommentSaveDto();
+        commentSaveDto.setContent("before");
+
+        CommentUpdateDto commentUpdateDto = new CommentUpdateDto();
+        commentUpdateDto.setContent("after");
+        // when
+
+        Comment before = commentService.commentSave(post.getPostId(),commentSaveDto);
+        System.out.println(before.getId());
+        Comment after = commentService.findById(before.getId());
+
+        commentService.commentUpdate(before.getId(),commentUpdateDto);
+        commentRepository.flush();
+
+        Comment comment = commentService.findById(before.getId());
+        // then
+
+        assertThat(comment.getContent()).isEqualTo(commentUpdateDto.getContent());
+    }
 //
 //    @Test
 //    public void commentDelete() throws Exception{

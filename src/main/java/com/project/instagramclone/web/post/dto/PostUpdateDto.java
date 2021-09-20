@@ -11,5 +11,4 @@ import java.util.ArrayList;
 public class PostUpdateDto {
 
     private String content;
-//    private List<photo> photoList = new ArrayList<>();
 }
