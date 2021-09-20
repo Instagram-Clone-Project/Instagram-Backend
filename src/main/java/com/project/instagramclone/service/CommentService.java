@@ -23,8 +23,11 @@ public class CommentService {
 
 
     @Transactional
-    public Comment commentSave(CommentSaveDto commentSaveDto) {
+    public Comment commentSave(Long postId ,CommentSaveDto commentSaveDto) {
+        Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다"));
 
+        Comment comment = commentSaveDto.toEntity();
+        comment.setPost(post);
         return commentRepository.save(commentSaveDto.toEntity());
     }
 
@@ -37,24 +40,24 @@ public class CommentService {
     }
 
     @Transactional
-    public void commetDelete(Long commentId) {
+    public void commentDelete(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
 
         commentRepository.delete(comment);
     }
 
     @Transactional
-    public Comment nestedCommentSave(Long parentCommentId, CommentSaveDto comment){
+    public void nestedCommentSave(Long parentCommentId, CommentSaveDto comment){
 
         Comment parent = commentRepository.findById(parentCommentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
-
         Comment children = commentRepository.save(comment.toEntity());
 
         parent.setRelationComment(parent,children);
 
         commentRepository.save(children);
 
-        return children;
     }
+
+
 
 }
