@@ -1,10 +1,8 @@
 package com.project.instagramclone.web.comment.dto;
 
-import com.project.instagramclone.domain.reply.entity.Comment;
+import com.project.instagramclone.domain.comment.entity.Comment;
+import com.project.instagramclone.domain.post.entity.Post;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -14,15 +12,10 @@ public class CommentSaveDto {
 
     private String content;
 
-//    private Post post;
-//    private User user;
-
 
     public Comment toEntity(){
         return Comment.builder()
                 .content(content)
-//                .post(post)
-//                .user(user)
                 .build();
     }
 }

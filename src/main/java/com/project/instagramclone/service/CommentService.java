@@ -2,8 +2,8 @@ package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
-import com.project.instagramclone.domain.reply.entity.Comment;
-import com.project.instagramclone.domain.reply.repository.CommentRepository;
+import com.project.instagramclone.domain.comment.entity.Comment;
+import com.project.instagramclone.domain.comment.repository.CommentRepository;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class CommentService {
 
         Comment comment = commentSaveDto.toEntity();
         comment.setPost(post);
-        return commentRepository.save(commentSaveDto.toEntity());
+        return commentRepository.save(comment);
     }
 
     @Transactional
