@@ -30,4 +30,8 @@ public class NestedCommentController {
         nestCommentService.nestedCommentUpdate(commentId,commentUpdateDto);
     }
 
+    @DeleteMapping("/api/{comment_id}/nestedcomment")
+    public void nestedCommentDelete(@PathVariable("comment_id") Long commentId){
+        nestCommentService.nestedCommetDelete(commentId);
+    }
 }

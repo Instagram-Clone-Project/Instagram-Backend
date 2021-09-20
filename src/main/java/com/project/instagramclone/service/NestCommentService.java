@@ -37,6 +37,13 @@ public class NestCommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
 
         comment.update(commentUpdateDto.getContent());
+    }
+
+    @Transactional
+    public void nestedCommetDelete(Long commentId){
+
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
+        commentRepository.delete(comment);
 
     }
 }
