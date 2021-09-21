@@ -33,7 +33,7 @@ public class PostService {
         Post findPost = findOne(id);
         findPost.setContent(content);
 //        findPost.setPhoto(photo);
-        findPost.setModifiedDate(LocalDateTime.now());
+//        findPost.setModifiedDate(LocalDateTime.now());
     }
 
     public Post findOne(Long postId) {

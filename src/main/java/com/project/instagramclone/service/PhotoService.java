@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PhotoService {
@@ -17,6 +19,12 @@ public class PhotoService {
     public Long photoSave(Photo photo) {
         photoRepository.save(photo);
         return photo.getPhotoId();
+    }
+
+
+    @Transactional
+    public void photoRemove(Photo photo) {
+        photoRepository.delete(photo);
     }
 
 }
