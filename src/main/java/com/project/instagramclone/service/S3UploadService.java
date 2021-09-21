@@ -62,7 +62,7 @@ public class S3UploadService {
         photo.setFileSize(file.length());
         photo.setPost(post);
 
-        photoService.photoSave(photo);
+//        photoService.photoSave(photo);
     }
 
 

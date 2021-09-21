@@ -1,5 +1,6 @@
 package com.project.instagramclone.domain.post.entity;
 
+import com.project.instagramclone.domain.BaseTimeEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-public class Photo {
+public class Photo extends BaseTimeEntity {
 
     @Id @GeneratedValue
     private Long photoId;
