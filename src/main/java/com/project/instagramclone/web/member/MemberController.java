@@ -1,6 +1,7 @@
 package com.project.instagramclone.web.member;
 
 import com.project.instagramclone.service.MemberService;
+import com.project.instagramclone.web.member.dto.LoginRequestDto;
 import com.project.instagramclone.web.member.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,5 +16,10 @@ public class MemberController {
     @PostMapping("/signup")
     public Long signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
         return memberService.signUp(signUpRequestDto);
+    }
+
+    @PostMapping("login")
+    public String login(@RequestBody LoginRequestDto loginRequestDto) {
+        return memberService.login(loginRequestDto);
     }
 }

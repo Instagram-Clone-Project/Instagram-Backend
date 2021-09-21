@@ -25,7 +25,7 @@ class MemberServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void 회원가입() throws Exception {
+    public void signUp() throws Exception {
 
         //given
         String email = "Test@Test.com";
