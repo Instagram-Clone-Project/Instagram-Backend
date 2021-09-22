@@ -36,11 +36,11 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String generateToken(String userPk, String id, String name) {
+    public String generateToken(String userPk, String username, String name) {
 
         Claims claims = Jwts.claims().setSubject(userPk);
 
-        claims.put("id", id);
+        claims.put("username", username);
         claims.put("name", name);
 
         Date now = new Date();

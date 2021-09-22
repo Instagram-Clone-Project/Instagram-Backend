@@ -1,7 +1,7 @@
 package com.project.instagramclone.web.member.dto;
 
-import com.project.instagramclone.domain.member.Member;
-import com.project.instagramclone.domain.member.MemberRole;
+import com.project.instagramclone.domain.member.User;
+import com.project.instagramclone.domain.member.UserRole;
 import lombok.*;
 
 @Getter
@@ -13,16 +13,16 @@ public class SignUpRequestDto {
 
     private String email;
     private String name;
-    private String id;
+    private String username;
     private String password;
 
-    public Member toEntity() {
-        return Member.builder()
+    public User toEntity() {
+        return User.builder()
                 .email(email)
                 .name(name)
-                .id(id)
+                .username(username)
                 .password(password)
-                .role(MemberRole.USER)
+                .role(UserRole.USER)
                 .build();
     }
 }

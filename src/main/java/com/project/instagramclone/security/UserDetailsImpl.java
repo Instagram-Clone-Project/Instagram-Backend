@@ -1,6 +1,6 @@
 package com.project.instagramclone.security;
 
-import com.project.instagramclone.domain.member.Member;
+import com.project.instagramclone.domain.member.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +12,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private final Member member;
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

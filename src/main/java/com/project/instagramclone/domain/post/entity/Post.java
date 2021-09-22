@@ -1,14 +1,12 @@
 package com.project.instagramclone.domain.post.entity;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
-import com.project.instagramclone.domain.member.Member;
-import com.project.instagramclone.domain.reply.entity.Comment;
+import com.project.instagramclone.domain.comment.entity.Comment;
 import lombok.Getter;
 import lombok.Setter;
 
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +31,12 @@ public class Post extends BaseTimeEntity {
 //    private List<Like> Likes = new ArrayList<>();
 
 //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+//    @JoinColumn(name = "user_id")
+//    private User user;
 //
-//    public void setMember(Member member) {
-//        member.getPosts.add(this);
-//        this.member = member;
+//    public void setMember(User user) {
+//        user.getPosts.add(this);
+//        this.user = user;
 //    }
 
 

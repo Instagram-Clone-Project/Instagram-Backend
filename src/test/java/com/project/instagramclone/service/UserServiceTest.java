@@ -1,7 +1,7 @@
 package com.project.instagramclone.service;
 
-import com.project.instagramclone.domain.member.Member;
-import com.project.instagramclone.domain.member.MemberRepository;
+import com.project.instagramclone.domain.member.User;
+import com.project.instagramclone.domain.member.UserRepository;
 import com.project.instagramclone.web.member.dto.SignUpRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class MemberServiceTest {
+class UserServiceTest {
 
     @Autowired
-    private MemberService memberService;
+    private UserService userService;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,27 +30,27 @@ class MemberServiceTest {
         //given
         String email = "Test@Test.com";
         String memberName = "Shin";
-        String id = "test_shin";
+        String username = "test_shin";
         String password = "test1234!";
 
         SignUpRequestDto signUpRequestDto = SignUpRequestDto.builder()
                 .email(email)
                 .name(memberName)
-                .id(id)
+                .username(username)
                 .password(password)
                 .build();
 
         //when
-        Long mno = memberService.signUp(signUpRequestDto);
+        Long mno = userService.signUp(signUpRequestDto);
 
-        Optional<Member> member = memberRepository.findById(mno);
+        Optional<User> member = userRepository.findById(mno);
 
         //then
         boolean encodeResult = passwordEncoder.matches(password, member.get().getPassword());
 
         assertThat(member.get().getEmail()).isEqualTo(email);
         assertThat(member.get().getName()).isEqualTo(memberName);
-        assertThat(member.get().getId()).isEqualTo(id);
+        assertThat(member.get().getUsername()).isEqualTo(username);
         assertThat(encodeResult).isEqualTo(true);
     }
 }
