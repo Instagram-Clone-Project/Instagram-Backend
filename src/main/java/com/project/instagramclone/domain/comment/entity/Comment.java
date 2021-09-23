@@ -2,7 +2,7 @@ package com.project.instagramclone.domain.comment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.project.instagramclone.domain.member.User;
+import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

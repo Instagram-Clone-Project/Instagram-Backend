@@ -1,7 +1,7 @@
 package com.project.instagramclone.security;
 
-import com.project.instagramclone.domain.member.User;
-import com.project.instagramclone.domain.member.UserRepository;
+import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

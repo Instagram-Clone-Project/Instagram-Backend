@@ -1,6 +1,6 @@
 package com.project.instagramclone.security;
 
-import com.project.instagramclone.domain.member.User;
+import com.project.instagramclone.domain.user.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

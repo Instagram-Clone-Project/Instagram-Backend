@@ -1,10 +1,10 @@
 package com.project.instagramclone.service;
 
-import com.project.instagramclone.domain.member.User;
-import com.project.instagramclone.domain.member.UserRepository;
+import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.security.JwtTokenProvider;
-import com.project.instagramclone.web.member.dto.LoginRequestDto;
-import com.project.instagramclone.web.member.dto.SignUpRequestDto;
+import com.project.instagramclone.web.user.dto.LoginRequestDto;
+import com.project.instagramclone.web.user.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

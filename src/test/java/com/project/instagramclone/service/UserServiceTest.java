@@ -1,8 +1,8 @@
 package com.project.instagramclone.service;
 
-import com.project.instagramclone.domain.member.User;
-import com.project.instagramclone.domain.member.UserRepository;
-import com.project.instagramclone.web.member.dto.SignUpRequestDto;
+import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.domain.user.UserRepository;
+import com.project.instagramclone.web.user.dto.SignUpRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,7 +1,7 @@
-package com.project.instagramclone.web.member.dto;
+package com.project.instagramclone.web.user.dto;
 
-import com.project.instagramclone.domain.member.User;
-import com.project.instagramclone.domain.member.UserRole;
+import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.domain.user.UserRole;
 import lombok.*;
 
 @Getter

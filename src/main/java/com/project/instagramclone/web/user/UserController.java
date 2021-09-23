@@ -1,15 +1,15 @@
-package com.project.instagramclone.web.member;
+package com.project.instagramclone.web.user;
 
 import com.project.instagramclone.service.UserService;
-import com.project.instagramclone.web.member.dto.LoginRequestDto;
-import com.project.instagramclone.web.member.dto.SignUpRequestDto;
+import com.project.instagramclone.web.user.dto.LoginRequestDto;
+import com.project.instagramclone.web.user.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
-public class MemberController {
+public class UserController {
 
     private final UserService userService;
 

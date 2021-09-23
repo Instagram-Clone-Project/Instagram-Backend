@@ -1,4 +1,4 @@
-package com.project.instagramclone.domain.member;
+package com.project.instagramclone.domain.user;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
 import lombok.*;

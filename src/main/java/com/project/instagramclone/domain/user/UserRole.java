@@ -1,4 +1,4 @@
-package com.project.instagramclone.domain.member;
+package com.project.instagramclone.domain.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
