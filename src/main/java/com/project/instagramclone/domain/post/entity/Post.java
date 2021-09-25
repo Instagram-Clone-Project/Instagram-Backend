@@ -1,8 +1,8 @@
 package com.project.instagramclone.domain.post.entity;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
+import com.project.instagramclone.domain.comment.entity.Comment;
 import com.project.instagramclone.domain.member.Member;
-import com.project.instagramclone.domain.reply.entity.Comment;
 import lombok.Getter;
 import lombok.Setter;
 
