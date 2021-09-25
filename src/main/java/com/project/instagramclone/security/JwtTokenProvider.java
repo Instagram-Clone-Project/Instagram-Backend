@@ -21,7 +21,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret")
+    @Value("${jwt.secret}")
     private String secretKey;
 
     private long tokenValidTime = 1000L * 60 * 60; //유효시간 1시간
@@ -36,10 +36,11 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String generateToken(String userPk, String username, String name) {
+    public String generateToken(String userId, String username, String name) {
 
-        Claims claims = Jwts.claims().setSubject(userPk);
+        Claims claims = Jwts.claims().setSubject(username);
 
+        claims.put("userId", userId);
         claims.put("username", username);
         claims.put("name", name);
 
@@ -56,13 +57,13 @@ public class JwtTokenProvider {
     //JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     //토큰에서 회원 정보 추출
-    public String getUserPk(String token) {
+    public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 

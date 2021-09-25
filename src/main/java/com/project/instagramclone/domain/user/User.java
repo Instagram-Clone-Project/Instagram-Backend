@@ -23,7 +23,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
     //사용자 아이디
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)

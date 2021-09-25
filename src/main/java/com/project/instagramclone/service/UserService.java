@@ -34,7 +34,7 @@ public class UserService {
     @Transactional
     public String login(LoginRequestDto loginRequestDto) {
 
-        User user = userRepository.findByEmail(loginRequestDto.getEmail())
+        User user = userRepository.findByUsername(loginRequestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 유저입니다."));
 
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {

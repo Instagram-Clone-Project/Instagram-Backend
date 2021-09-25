@@ -15,10 +15,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String userPk) throws UsernameNotFoundException {
-
-        User user = userRepository.findById(Long.parseLong(userPk))
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다. " + userPk));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //System.out.println("loadUserByUsername 실행중");
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("\"" +username + "\" 사용자를 찾을 수 없습니다."));
 
         return new UserDetailsImpl(user);
     }
