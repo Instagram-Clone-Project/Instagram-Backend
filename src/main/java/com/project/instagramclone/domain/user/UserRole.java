@@ -1,11 +1,11 @@
-package com.project.instagramclone.domain.member;
+package com.project.instagramclone.domain.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MemberRole {
+public enum UserRole {
 
     USER("ROLE_USER", "사용자"),
     ADMIN("ROLE_ADMIN", "관리자");
