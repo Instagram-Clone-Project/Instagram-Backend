@@ -28,7 +28,16 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     implementation 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1' //JWT 의존성 추가
+
+    //JWT 의존성 추가
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    //Swagger 의존성 추가
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9' //사진업로드
     compile group: 'commons-io', name: 'commons-io', version: '2.6'            //사진업로드
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.0.1.RELEASE'        //aws

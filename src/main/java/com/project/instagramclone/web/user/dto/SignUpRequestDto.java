@@ -2,6 +2,7 @@ package com.project.instagramclone.web.user.dto;
 
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRole;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Getter
@@ -11,9 +12,16 @@ import lombok.*;
 @AllArgsConstructor
 public class SignUpRequestDto {
 
+    @ApiModelProperty(example = "이메일 주소")
     private String email;
+
+    @ApiModelProperty(example = "성명")
     private String name;
+
+    @ApiModelProperty(example = "사용자 이름")
     private String username;
+
+    @ApiModelProperty(example = "비밀번호")
     private String password;
 
     public User toEntity() {
