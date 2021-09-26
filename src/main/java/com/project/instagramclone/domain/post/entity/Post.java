@@ -2,6 +2,7 @@ package com.project.instagramclone.domain.post.entity;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
 import com.project.instagramclone.domain.comment.entity.Comment;
+import com.project.instagramclone.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,14 +32,14 @@ public class Post extends BaseTimeEntity {
 //    @OneToMany(mappedBy = "post")
 //    private List<Like> Likes = new ArrayList<>();
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    public void setMember(User user) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public void setMember(User user) {
 //        user.getPosts.add(this);
-//        this.user = user;
-//    }
+        this.user = user;
+    }
 
 
 }
