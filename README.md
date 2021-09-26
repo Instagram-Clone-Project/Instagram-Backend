@@ -7,11 +7,16 @@
 - SpringBoot
 - Spring Data JPA
 - Spring Security
+- Gradle 7.1.1
 - MariaDB
+
 `Frontend`
 
-`Diploy`
 
+`Diploy`
+- AWS EC2 (Amazon Linux 2)
+- AWS RDS (MariaDB)
+- AWS S3
 <br>
 
 ## ERD 설계
