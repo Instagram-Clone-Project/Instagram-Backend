@@ -15,7 +15,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/api/{post_id}/comment")
+    @PostMapping("/api/comment/{post_id}")
     public void commentSave(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                 @PathVariable("post_id") Long post_id, @RequestBody CommentSaveDto commentSaveDto){
 
