@@ -39,7 +39,6 @@ public class CommentService {
     }
 
     @Transactional
-    // 권한에 관련된 처리? 해당된 회원만 글을 수정할 수 있게 해야함 후에 추가하기
     public Comment commentUpdate(Long comment_id, CommentUpdateDto commentUpdateDto){
         Comment comment = commentRepository.findById(comment_id).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
         comment.update(commentUpdateDto.getContent());

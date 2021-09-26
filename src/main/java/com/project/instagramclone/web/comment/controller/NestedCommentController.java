@@ -2,10 +2,13 @@ package com.project.instagramclone.web.comment.controller;
 
 import com.project.instagramclone.domain.comment.repository.CommentRepository;
 import com.project.instagramclone.domain.post.repository.PostRepository;
+import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.security.UserDetailsImpl;
 import com.project.instagramclone.service.NestCommentService;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 /*
@@ -19,9 +22,12 @@ public class NestedCommentController {
     private final NestCommentService nestCommentService;
 
     @PostMapping("/api/{parent_id}/nestedcomment")
-    public void nestedCommentSave(@PathVariable("parent_id")Long parentId,
+    public void nestedCommentSave(@AuthenticationPrincipal UserDetailsImpl userDetails ,@PathVariable("parent_id")Long parentId,
                                   @RequestBody CommentSaveDto commentSaveDto){
-        nestCommentService.nestedCommentSave(parentId, commentSaveDto);
+
+        User user = userDetails.getUser();
+
+        nestCommentService.nestedCommentSave(user, parentId, commentSaveDto);
     }
 
     @PutMapping("/api/{comment_id}/nestedcomment")
