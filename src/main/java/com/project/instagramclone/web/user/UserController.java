@@ -26,9 +26,10 @@ public class UserController {
         return userService.login(loginRequestDto);
     }
 
-    /*
+
     @GetMapping("test")
     public User test(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         return userDetails.getUser();
-    }*/
+    }
 }
