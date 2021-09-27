@@ -2,6 +2,7 @@ package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
+import com.project.instagramclone.web.post.dto.PostTestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +41,9 @@ public class PostService {
         return postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
     }
 
-    public List<Post> findPosts() {
-        return postRepository.findAll();
+    public List<Post> findAllPost(Long userId) {
+        return postRepository.findPostByUsername(userId);
     }
+
 
 }
