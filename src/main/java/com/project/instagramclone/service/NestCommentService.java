@@ -6,6 +6,7 @@ package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.comment.entity.Comment;
 import com.project.instagramclone.domain.comment.repository.CommentRepository;
+import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
@@ -22,10 +23,12 @@ public class NestCommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void nestedCommentSave(User user, Long parentCommentId, CommentSaveDto comment){
+    public void nestedCommentSave(User user, Long postId, Long parentCommentId, CommentSaveDto comment){
 
+        Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다"));
         Comment parent = commentRepository.findById(parentCommentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
         Comment children = commentRepository.save(comment.toEntity());
+        children.setPost(post);
         children.setUser(user);
         parent.setRelationComment(parent,children);
 
