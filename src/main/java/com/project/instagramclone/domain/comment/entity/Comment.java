@@ -50,6 +50,11 @@ public class Comment extends BaseTimeEntity {
     @Builder.Default    // 값이 초기화 돼 있는 경우 빌더로 의해서 변경될수 있다고 명시
     private List<Comment> children = new ArrayList<>();
 
+
+
+
+
+
     public void setRelationComment(Comment parent, Comment children){
         parent.setChildren(children);
         children.setParent(parent);
