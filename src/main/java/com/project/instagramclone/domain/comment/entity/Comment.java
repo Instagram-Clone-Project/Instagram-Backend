@@ -2,6 +2,7 @@ package com.project.instagramclone.domain.comment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.project.instagramclone.domain.BaseTimeEntity;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.List;
 @Builder
 @Getter
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")   // 양방향 무한루프방지
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +29,7 @@ public class Comment {
     // 나중에 Validation 적용해보기기
     @Column(nullable = false)
     private String content;
+
 
 
    @ManyToOne(fetch = FetchType.LAZY)

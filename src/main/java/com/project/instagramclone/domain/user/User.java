@@ -1,7 +1,6 @@
 package com.project.instagramclone.domain.user;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
-import com.project.instagramclone.domain.follow.Follow;
 import lombok.*;
 
 import javax.persistence.*;
@@ -51,10 +50,10 @@ public class User extends BaseTimeEntity {
 
     // 수혁
 
-    @OneToMany(mappedBy = "follower")
-    private List<Follow> follwer;
-
-    @OneToMany(mappedBy = "following")
-    private List<Follow> follwing;
+//    @OneToMany(mappedBy = "follower")
+//    private List<Follow> follwer;
+//
+//    @OneToMany(mappedBy = "following")
+//    private List<Follow> follwing;
 
 }
