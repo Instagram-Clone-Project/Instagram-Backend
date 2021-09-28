@@ -4,13 +4,15 @@ package com.project.instagramclone.service;
  대댓글 관련 서비스
  */
 
-import com.project.instagramclone.domain.comment.entity.Comment;
-import com.project.instagramclone.domain.comment.repository.CommentRepository;
+import com.project.instagramclone.domain.comment.Comment;
+import com.project.instagramclone.domain.comment.CommentRepository;
+import com.project.instagramclone.domain.nestedcomment.NestedComment;
+import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
-import com.project.instagramclone.web.comment.dto.CommentSaveDto;
-import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
+import com.project.instagramclone.web.nestedcomment.dto.NestedCommentSaveDto;
+import com.project.instagramclone.web.nestedcomment.dto.NestedCommentUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,33 +23,33 @@ public class NestCommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-
+    private final NestedCommentRepository nestedCommentRepository;
     @Transactional
-    public void nestedCommentSave(User user, Long postId, Long parentCommentId, CommentSaveDto comment){
+    public void nestedCommentSave(User user, Long postId, Long parentCommentId, NestedCommentSaveDto nestedCommentSaveDto){
 
         Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다"));
         Comment parent = commentRepository.findById(parentCommentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
-        Comment children = commentRepository.save(comment.toEntity());
-        children.setPost(post);
-        children.setUser(user);
-        parent.setRelationComment(parent,children);
 
-        commentRepository.save(children);
+        NestedComment children = nestedCommentSaveDto.toEntity();
+
+        parent.setRelation(children);
+        nestedCommentRepository.save(children);
+
     }
 
     @Transactional
-    public void nestedCommentUpdate(Long commentId, CommentUpdateDto commentUpdateDto){
+    public void nestedCommentUpdate(Long commentId, NestedCommentUpdateDto nestedCommentUpdateDto){
 
-        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
+        NestedComment nestedComment = nestedCommentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
 
-        comment.update(commentUpdateDto.getContent());
+        nestedComment.update(nestedCommentUpdateDto);
     }
 
     @Transactional
-    public void nestedCommetDelete(Long commentId){
+    public void nestedCommentDelete(Long commentId){
 
-        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
-        commentRepository.delete(comment);
+        NestedComment comment = nestedCommentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
+        nestedCommentRepository.delete(comment);
 
     }
 }

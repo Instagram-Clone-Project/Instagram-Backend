@@ -1,7 +1,6 @@
 package com.project.instagramclone.web.comment.dto;
 
-import com.project.instagramclone.domain.comment.entity.Comment;
-import com.project.instagramclone.domain.post.entity.Post;
+import com.project.instagramclone.domain.comment.Comment;
 import lombok.*;
 
 @Getter

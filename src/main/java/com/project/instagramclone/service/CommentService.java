@@ -1,17 +1,22 @@
 package com.project.instagramclone.service;
 
+import com.project.instagramclone.domain.comment.CommentQueryRepository;
+import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
-import com.project.instagramclone.domain.comment.entity.Comment;
-import com.project.instagramclone.domain.comment.repository.CommentRepository;
+import com.project.instagramclone.domain.comment.Comment;
+import com.project.instagramclone.domain.comment.CommentRepository;
 import com.project.instagramclone.domain.user.User;
-import com.project.instagramclone.security.UserDetailsImpl;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
+import com.project.instagramclone.web.comment.dto.CommentVo;
+import com.project.instagramclone.web.nestedcomment.dto.NestedCommentVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +24,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final CommentQueryRepository commentQueryRepository;
 
     @Transactional
     public Comment findById(Long id){
@@ -53,7 +59,23 @@ public class CommentService {
     }
 
 
+    @Transactional
+    public List<CommentVo> getComments(Long postId){
+        List<CommentVo> vo = new ArrayList<>();
+        List<Comment> test = commentQueryRepository.getComments(postId);
+        List<NestedCommentVo> nestedCommentVos = new ArrayList<>();
 
+        for(Comment c : test){
+            System.out.println(c.getId()+" "+c.getContent());
+            nestedCommentVos = new ArrayList<>();
+
+            for(NestedComment nestedComment : c.getReply()){
+                nestedCommentVos.add(new NestedCommentVo(nestedComment.getContent(), nestedComment.getCreatedDate(), nestedComment.getModifiedDate()));
+            }
+            vo.add(new CommentVo(c,nestedCommentVos));
+        }
+        return vo;
+    }
 
 
 }

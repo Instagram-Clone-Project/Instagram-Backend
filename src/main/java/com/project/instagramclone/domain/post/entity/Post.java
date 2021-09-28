@@ -1,14 +1,13 @@
 package com.project.instagramclone.domain.post.entity;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
-import com.project.instagramclone.domain.comment.entity.Comment;
+import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

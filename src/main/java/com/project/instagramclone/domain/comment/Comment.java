@@ -1,8 +1,9 @@
-package com.project.instagramclone.domain.comment.entity;
+package com.project.instagramclone.domain.comment;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.project.instagramclone.domain.BaseTimeEntity;
+import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
@@ -30,8 +31,6 @@ public class Comment extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-
-
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "post_id")
     private Post post;
@@ -41,23 +40,15 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Comment parent;
-
-    @OneToMany(mappedBy = "parent", orphanRemoval = true)
-    @Builder.Default    // 값이 초기화 돼 있는 경우 빌더로 의해서 변경될수 있다고 명시
-    private List<Comment> children = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", orphanRemoval = true)
+    @Builder.Default
+    private List<NestedComment> reply = new ArrayList<>();
 
 
 
-
-
-
-    public void setRelationComment(Comment parent, Comment children){
-        parent.setChildren(children);
-        children.setParent(parent);
+    public void setRelation(NestedComment nestedComment){
+        this.reply.add(nestedComment);
+        nestedComment.setComment(this);
     }
 
     public void setPost(Post post){
@@ -69,14 +60,6 @@ public class Comment extends BaseTimeEntity {
         this.user = user;
     }
 
-
-    public void setParent(Comment comment){
-        this.parent = comment;
-    }
-
-    public void setChildren(Comment children){
-        this.children.add(children);
-    }
 
 
     public void update(String content){
