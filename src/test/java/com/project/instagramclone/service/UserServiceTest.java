@@ -23,7 +23,7 @@ class UserServiceTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+/*
     @Test
     public void signUp() throws Exception {
 
@@ -54,5 +54,5 @@ class UserServiceTest {
         assertThat(member.get().getName()).isEqualTo(memberName);
         assertThat(member.get().getUsername()).isEqualTo(username);
         assertThat(encodeResult).isEqualTo(true);
-    }
+    }*/
 }
