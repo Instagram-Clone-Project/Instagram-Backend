@@ -1,11 +1,15 @@
 package com.project.instagramclone.service;
 
+import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.domain.user.UserRepository;
+import com.project.instagramclone.web.user.dto.VerifyAccountRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -20,12 +24,10 @@ public class MailService {
     private String from;
 
     private final JavaMailSender mailSender;
+    private final UserRepository userRepository;
 
     @Async
-    public void sendMail(String email) throws MessagingException {
-
-        String authCode = generateAuthCode();
-
+    public void sendMail(String email, String authCode) throws MessagingException {
         /*
         setFrom: 보내는 사람
         setTo: 받는 사람
@@ -62,5 +64,15 @@ public class MailService {
         }
 
         return authCode.toString();
+    }
+
+    @Transactional
+    public void verifyAccount(VerifyAccountRequestDto accountRequestDto) {
+
+        User user = userRepository.findByEmail(accountRequestDto.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        if (user.getVerificationCode().equals(accountRequestDto.getAuthCode()))
+            user.changeEnabled(true);
     }
 }

@@ -31,10 +31,12 @@ public class UserService {
 
         User user = userRepository.save(signUpRequestDto.toEntity());
 
-        user.createVerificationCode(mailService.generateAuthCode());
+        String authCode = mailService.generateAuthCode();
+
+        user.createVerificationCode(authCode);
         user.changeEnabled(false);
 
-        mailService.sendMail(signUpRequestDto.getEmail());
+        mailService.sendMail(signUpRequestDto.getEmail(), authCode);
     }
 
     @Transactional
