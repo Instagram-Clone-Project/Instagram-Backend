@@ -12,6 +12,9 @@ import lombok.*;
 @AllArgsConstructor
 public class SignUpRequestDto {
 
+    //@ApiModelProperty(example = "전화번호")
+    //private String phoneNumber;
+
     @ApiModelProperty(example = "이메일 주소")
     private String email;
 

@@ -49,7 +49,7 @@ public class MailService {
         }
     }
 
-    private String generateAuthCode() {
+    public String generateAuthCode() {
 
         Random random = new Random();
         StringBuffer authCode = new StringBuffer();

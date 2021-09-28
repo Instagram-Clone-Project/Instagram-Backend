@@ -5,14 +5,12 @@ import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.security.JwtTokenProvider;
 import com.project.instagramclone.web.user.dto.LoginRequestDto;
 import com.project.instagramclone.web.user.dto.SignUpRequestDto;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +29,10 @@ public class UserService {
 
         signUpRequestDto.setPassword(encPassword);
 
-        userRepository.save(signUpRequestDto.toEntity());
+        User user = userRepository.save(signUpRequestDto.toEntity());
+
+        user.createVerificationCode(mailService.generateAuthCode());
+        user.changeEnabled(false);
 
         mailService.sendMail(signUpRequestDto.getEmail());
     }
