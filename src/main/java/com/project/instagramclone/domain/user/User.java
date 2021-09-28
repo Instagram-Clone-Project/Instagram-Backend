@@ -18,7 +18,10 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false)
+    @Column(unique = true)
+    private String phoneNumber;
+
+    @Column(unique = true)
     private String email;
     //사용자 이름
     @Column(nullable = false)
@@ -36,8 +39,6 @@ public class User extends BaseTimeEntity {
 
     //아래 필드들은 필수X
     //나중에 수정 예정
-    private String phoneNumber;
-
     private String webSite;
 
     private String description;
@@ -47,6 +48,17 @@ public class User extends BaseTimeEntity {
 
     private String profileImgUrl;
 
+    private String verificationCode;
+    //이메일 인증 활성화 여부
+    private boolean enabled;
+
+    public void createVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public void changeEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     // 수혁
 

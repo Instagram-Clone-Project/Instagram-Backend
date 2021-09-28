@@ -10,25 +10,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtTokenProvider jwtTokenProvider;
+    private final MailService mailService;
 
     @Transactional
-    public Long signUp(SignUpRequestDto signUpRequestDto) {
+    public void signUp(SignUpRequestDto signUpRequestDto) throws MessagingException {
 
         //암호화된 비밀번호
         String encPassword = passwordEncoder.encode(signUpRequestDto.getPassword());
 
         signUpRequestDto.setPassword(encPassword);
 
-        return userRepository.save(signUpRequestDto.toEntity()).getUserId();
+        User user = userRepository.save(signUpRequestDto.toEntity());
+
+        String authCode = mailService.generateAuthCode();
+
+        user.createVerificationCode(authCode);
+        user.changeEnabled(false);
+
+        mailService.sendMail(signUpRequestDto.getEmail(), authCode);
     }
 
     @Transactional
