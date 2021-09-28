@@ -5,30 +5,35 @@ import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.security.JwtTokenProvider;
 import com.project.instagramclone.web.user.dto.LoginRequestDto;
 import com.project.instagramclone.web.user.dto.SignUpRequestDto;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.mail.MessagingException;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtTokenProvider jwtTokenProvider;
+    private final MailService mailService;
 
     @Transactional
-    public Long signUp(SignUpRequestDto signUpRequestDto) {
+    public void signUp(SignUpRequestDto signUpRequestDto) throws MessagingException {
 
         //암호화된 비밀번호
         String encPassword = passwordEncoder.encode(signUpRequestDto.getPassword());
 
         signUpRequestDto.setPassword(encPassword);
 
-        return userRepository.save(signUpRequestDto.toEntity()).getUserId();
+        userRepository.save(signUpRequestDto.toEntity());
+
+        mailService.sendMail(signUpRequestDto.getEmail());
     }
 
     @Transactional

@@ -41,7 +41,9 @@ class UserServiceTest {
                 .build();
 
         //when
-        Long mno = userService.signUp(signUpRequestDto);
+        userService.signUp(signUpRequestDto);
+
+        Long mno = userRepository.findByUsername(username).get().getUserId();
 
         Optional<User> member = userRepository.findById(mno);
 
