@@ -4,21 +4,17 @@ import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.post.entity.Photo;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.user.User;
-<<<<<<< HEAD
-import com.project.instagramclone.security.UserDetailsImpl;
 import com.project.instagramclone.service.CommentService;
 import com.project.instagramclone.service.PhotoService;
 import com.project.instagramclone.service.PostService;
 import com.project.instagramclone.service.S3UploadService;
 import com.project.instagramclone.web.post.dto.*;
-=======
 import com.project.instagramclone.security.PrincipalDetails;
 import com.project.instagramclone.service.PhotoService;
 import com.project.instagramclone.service.PostService;
 import com.project.instagramclone.service.S3UploadService;
 import com.project.instagramclone.web.post.dto.PostSaveDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
->>>>>>> feature/modify-user
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -67,12 +63,7 @@ public class PostController {
 
     @ApiOperation(value = "게시글 조회")
     @GetMapping("/api/post")
-<<<<<<< HEAD
-    public List<PostShowDto> postAllShow(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-=======
     public List<PostShowDto> postAllShow(@AuthenticationPrincipal PrincipalDetails userDetails) {
-
->>>>>>> feature/modify-user
         User user = userDetails.getUser();
         return postService.getPostList(user.getUserId());
     }
