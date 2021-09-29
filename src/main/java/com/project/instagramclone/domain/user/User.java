@@ -1,6 +1,7 @@
 package com.project.instagramclone.domain.user;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
+import com.project.instagramclone.web.user.dto.UserRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,7 +47,7 @@ public class User extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    private String profileImgUrl;
+    private String profileImageUrl;
 
     private String verificationCode;
     //이메일 인증 활성화 여부
@@ -58,6 +59,16 @@ public class User extends BaseTimeEntity {
 
     public void changeEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void updateUser(UserRequestDto userRequestDto) {
+        this.name = userRequestDto.getName();
+        this.username = userRequestDto.getUsername();
+        this.webSite = userRequestDto.getWebsite();
+        this.description = userRequestDto.getDescription();
+        this.email = userRequestDto.getEmail();
+        this.phoneNumber = userRequestDto.getPhoneNumber();
+        this.gender = userRequestDto.getGender();
     }
 
     // 수혁

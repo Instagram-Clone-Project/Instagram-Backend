@@ -1,24 +1,16 @@
 package com.project.instagramclone.web.nestedcomment.controller;
 
-import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
-import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.user.User;
-import com.project.instagramclone.security.UserDetailsImpl;
+import com.project.instagramclone.security.PrincipalDetails;
 import com.project.instagramclone.service.NestCommentService;
-import com.project.instagramclone.web.comment.dto.CommentVo;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentSaveDto;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentUpdateDto;
-import com.project.instagramclone.web.nestedcomment.dto.NestedCommentVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
    대댓글 관련 로직 컨트롤러
@@ -33,8 +25,8 @@ public class NestedCommentController {
 
     @ApiOperation(value = "대댓글 작성", notes = "대댓글 작성입니다. {post_id}에는 대댓글을 작성할 게시글 pk입니다.  {parent_id}에는 대댓글을 작성할 부모 댓글 pk값입니다.")
     @PostMapping("/api/{post_id}/{parent_id}/nestedcomment")
-    public void nestedCommentSave(@AuthenticationPrincipal UserDetailsImpl userDetails ,@PathVariable("parent_id")Long parentId,
-                                  @PathVariable("post_id") Long postId,@RequestBody NestedCommentSaveDto nestedCommentSaveDto){
+    public void nestedCommentSave(@AuthenticationPrincipal PrincipalDetails userDetails , @PathVariable("parent_id")Long parentId,
+                                  @PathVariable("post_id") Long postId, @RequestBody NestedCommentSaveDto nestedCommentSaveDto){
 
         User user = userDetails.getUser();
 
