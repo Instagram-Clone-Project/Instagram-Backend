@@ -11,6 +11,7 @@ import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import com.project.instagramclone.web.comment.dto.CommentVo;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentVo;
+import com.project.instagramclone.web.post.dto.CommentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +76,13 @@ public class CommentService {
             vo.add(new CommentVo(c,nestedCommentVos));
         }
         return vo;
+    }
+
+    /**
+     * 박준순이 만든거임
+     */
+    public List<CommentDto> findAllComments(Long postId) {
+        return commentQueryRepository.findCommentByPostId(postId);
     }
 
 

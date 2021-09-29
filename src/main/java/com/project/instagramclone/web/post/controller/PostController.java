@@ -1,16 +1,15 @@
 package com.project.instagramclone.web.post.controller;
 
+import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.post.entity.Photo;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.security.UserDetailsImpl;
+import com.project.instagramclone.service.CommentService;
 import com.project.instagramclone.service.PhotoService;
 import com.project.instagramclone.service.PostService;
 import com.project.instagramclone.service.S3UploadService;
-import com.project.instagramclone.web.post.dto.PostSaveDto;
-import com.project.instagramclone.web.post.dto.PostShowDto;
-import com.project.instagramclone.web.post.dto.PostTestDto;
-import com.project.instagramclone.web.post.dto.PostUpdateDto;
+import com.project.instagramclone.web.post.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
@@ -31,6 +30,7 @@ public class PostController {
 
     private final PostService postService;
     private final PhotoService photoService;
+    private final CommentService commentService;
     private final S3UploadService s3UploadService;
 
     @ApiOperation(value = "게시글 작성", notes = "게시글 작성입니다.")
@@ -58,24 +58,11 @@ public class PostController {
         postService.removePost(findPost);
     }
 
+    @ApiOperation(value = "게시글 조회")
     @GetMapping("/api/post")
     public List<PostShowDto> postAllShow(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         User user = userDetails.getUser();
-
-        List<PostShowDto> postShowDtoList = new ArrayList<>();
-        List<Post> postList = postService.findAllPost(user.getUserId());
-        for (Post post : postList) {
-            List<Photo> photoList = photoService.findAllPhotoByPostId(post.getPostId());
-            PostShowDto postShowDto = new PostShowDto();
-            postShowDto.setContent(post.getContent());
-            for (Photo photo : photoList) {
-                postShowDto.getPhotoList().add(photo.getRoute());
-            }
-            postShowDtoList.add(postShowDto);
-        }
-
-        return postShowDtoList;
+        return postService.getPostList(user.getUserId());
     }
 
 //    @GetMapping("/api/post/{post_id}")

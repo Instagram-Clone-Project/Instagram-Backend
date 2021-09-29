@@ -58,7 +58,7 @@ public class S3UploadService {
         Photo photo = new Photo();
         photo.setFileName(fileName);
         photo.setEncFileName(encFileName);
-        photo.setRoute(s3FileName);
+        photo.setRoute("https://ssc-instagram.s3.ap-northeast-2.amazonaws.com/" + s3FileName);
         photo.setFileSize(file.length());
         photo.setPost(post);
 
