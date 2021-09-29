@@ -14,7 +14,7 @@ public class PostShowDto {
     @ApiModelProperty(example = "게시글")
     private String content;
 
-    @ApiModelProperty(example = "게시글 사진 url")
+    @ApiModelProperty(example = "[게시글 이미지 url1,게시글 이미지 url1,게시글 이미지 url1, 게시글 이미지 url1]")
     private List<String> photoList = new ArrayList<>();
 
     private List<CommentDto> commentList = new ArrayList<>();
