@@ -3,24 +3,20 @@ package com.project.instagramclone.web.post.controller;
 import com.project.instagramclone.domain.post.entity.Photo;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.user.User;
-import com.project.instagramclone.security.UserDetailsImpl;
+import com.project.instagramclone.security.PrincipalDetails;
 import com.project.instagramclone.service.PhotoService;
 import com.project.instagramclone.service.PostService;
 import com.project.instagramclone.service.S3UploadService;
 import com.project.instagramclone.web.post.dto.PostSaveDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
-import com.project.instagramclone.web.post.dto.PostTestDto;
-import com.project.instagramclone.web.post.dto.PostUpdateDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +31,7 @@ public class PostController {
 
     @ApiOperation(value = "게시글 작성", notes = "게시글 작성입니다.")
     @PostMapping("/api/post")
-    public void postSave(@ModelAttribute PostSaveDto postSaveDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public void postSave(@ModelAttribute PostSaveDto postSaveDto, @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
         Post post = new Post();
         post.setContent(postSaveDto.getContent());
 
@@ -59,7 +55,7 @@ public class PostController {
     }
 
     @GetMapping("/api/post")
-    public List<PostShowDto> postAllShow(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<PostShowDto> postAllShow(@AuthenticationPrincipal PrincipalDetails userDetails) {
 
         User user = userDetails.getUser();
 

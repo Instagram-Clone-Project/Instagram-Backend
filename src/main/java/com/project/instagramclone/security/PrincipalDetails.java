@@ -4,6 +4,7 @@ import com.project.instagramclone.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,8 +12,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
+@Setter
 @AllArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+public class PrincipalDetails implements UserDetails {
 
     private User user;
 

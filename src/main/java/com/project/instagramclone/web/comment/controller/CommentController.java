@@ -1,23 +1,18 @@
 package com.project.instagramclone.web.comment.controller;
 
-import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
-import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.user.User;
-import com.project.instagramclone.security.UserDetailsImpl;
+import com.project.instagramclone.security.PrincipalDetails;
 import com.project.instagramclone.service.CommentService;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import com.project.instagramclone.web.comment.dto.CommentVo;
-import com.project.instagramclone.web.nestedcomment.dto.NestedCommentVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,7 +23,7 @@ public class CommentController {
     private final CommentService commentService;
     @ApiOperation(value = "댓글 작성", notes = "댓글 작성입니다. {post_id}에는 댓글을 작성할 게시글 pk값입니다.")
     @PostMapping("/api/comment/{post_id}")
-    public void commentSave(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public void commentSave(@AuthenticationPrincipal PrincipalDetails userDetails,
                                 @PathVariable("post_id") Long post_id, @RequestBody CommentSaveDto commentSaveDto){
 
         User user = userDetails.getUser();
