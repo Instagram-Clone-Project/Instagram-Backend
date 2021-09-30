@@ -1,4 +1,4 @@
-package com.project.instagramclone.domain.post.repository;
+package com.project.instagramclone.domain.photo.repository;
 
 import com.project.instagramclone.domain.post.entity.Photo;
 import com.project.instagramclone.web.post.dto.PostTestDto;

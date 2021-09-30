@@ -2,7 +2,7 @@ package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
 import com.project.instagramclone.domain.nestedcomment.NestedComment;
-import com.project.instagramclone.domain.post.entity.Post;
+import com.project.instagramclone.domain.photo.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentRepository;

@@ -1,9 +1,7 @@
 package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.post.entity.Photo;
-import com.project.instagramclone.domain.post.entity.Post;
-import com.project.instagramclone.domain.post.repository.PhotoRepository;
-import com.project.instagramclone.web.post.dto.PostTestDto;
+import com.project.instagramclone.domain.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

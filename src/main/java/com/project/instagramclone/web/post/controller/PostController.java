@@ -1,18 +1,12 @@
 package com.project.instagramclone.web.post.controller;
 
-import com.project.instagramclone.domain.comment.Comment;
-import com.project.instagramclone.domain.post.entity.Photo;
-import com.project.instagramclone.domain.post.entity.Post;
+import com.project.instagramclone.domain.photo.entity.Post;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.service.CommentService;
 import com.project.instagramclone.service.PhotoService;
 import com.project.instagramclone.service.PostService;
 import com.project.instagramclone.service.S3UploadService;
-import com.project.instagramclone.web.post.dto.*;
 import com.project.instagramclone.security.PrincipalDetails;
-import com.project.instagramclone.service.PhotoService;
-import com.project.instagramclone.service.PostService;
-import com.project.instagramclone.service.S3UploadService;
 import com.project.instagramclone.web.post.dto.PostSaveDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
 import io.swagger.annotations.Api;
@@ -23,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
