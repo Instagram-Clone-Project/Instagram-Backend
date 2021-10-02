@@ -54,13 +54,11 @@ public class UserService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+        return LoginResponseDto.builder()
                 .username(user.getUsername())
                 .profileImageUrl(user.getProfileImageUrl())
                 .accessToken(jwtTokenProvider.generateToken(Long.toString(user.getUserId()), user.getUsername(), user.getName()))
                 .build();
-
-        return loginResponseDto;
     }
 
     @Transactional
