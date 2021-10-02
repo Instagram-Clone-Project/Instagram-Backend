@@ -1,5 +1,6 @@
 package com.project.instagramclone.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.instagramclone.domain.BaseTimeEntity;
 import com.project.instagramclone.web.user.dto.UserRequestDto;
 import lombok.*;
@@ -31,9 +32,11 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
+    @JsonIgnore
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
@@ -49,8 +52,11 @@ public class User extends BaseTimeEntity {
 
     private String profileImageUrl;
 
+    @JsonIgnore
     private String verificationCode;
+
     //이메일 인증 활성화 여부
+    @JsonIgnore
     private boolean enabled;
 
     public void createVerificationCode(String verificationCode) {
