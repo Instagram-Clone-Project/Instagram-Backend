@@ -5,6 +5,7 @@ import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.security.JwtTokenProvider;
 import com.project.instagramclone.web.user.dto.LoginRequestDto;
+import com.project.instagramclone.web.user.dto.LoginResponseDto;
 import com.project.instagramclone.web.user.dto.SignUpRequestDto;
 import com.project.instagramclone.web.user.dto.UserRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class UserService {
     }
 
     @Transactional
-    public String login(LoginRequestDto loginRequestDto) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 유저입니다."));
@@ -53,7 +54,13 @@ public class UserService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        return jwtTokenProvider.generateToken(Long.toString(user.getUserId()), user.getUsername(), user.getName());
+        LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                .username(user.getUsername())
+                .profileImageUrl(user.getProfileImageUrl())
+                .accessToken(jwtTokenProvider.generateToken(Long.toString(user.getUserId()), user.getUsername(), user.getName()))
+                .build();
+
+        return loginResponseDto;
     }
 
     @Transactional

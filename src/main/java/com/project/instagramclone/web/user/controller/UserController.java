@@ -39,8 +39,8 @@ public class UserController {
 
     @ApiOperation(value = "기본 로그인")
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDto loginRequestDto) {
-        return userService.login(loginRequestDto);
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "이메일 인증번호 일치 여부 확인")
