@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 
@@ -52,7 +53,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "프로필 편집")
-    @PutMapping("/{userId}")
+    @PutMapping("/{userId}/update")
     public ResponseEntity<String> update(@PathVariable("userId") Long userId,
                                          @RequestBody UserRequestDto userRequestDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -62,5 +63,18 @@ public class UserController {
         principalDetails.setUser(user);
 
         return new ResponseEntity<>("회원수정 완료", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "프로필 사진 수정")
+    @PostMapping("/{userId}/update/image")
+    public ResponseEntity<String> uploadProfileImage(@PathVariable("userId") Long userId,
+                                     @RequestPart MultipartFile profileImageFile,
+                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        User user = userService.uploadProfileImage(userId, profileImageFile);
+
+        principalDetails.setUser(user);
+
+        return new ResponseEntity<>("프로필 사진수정 완료", HttpStatus.OK);
     }
 }
