@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 
@@ -22,6 +23,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final MailService mailService;
+    private final FileUploadService fileUploadService;
 
     @Transactional
     public void signUp(SignUpRequestDto signUpRequestDto) throws MessagingException {
@@ -58,9 +60,22 @@ public class UserService {
     public User update(Long userId, UserRequestDto userRequestDto) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException("찾을 수 없는 id입니다."));
+                .orElseThrow(() -> new CustomException("찾을 수 없는 id 입니다."));
 
         user.updateUser(userRequestDto);
+
+        return user;
+    }
+
+    @Transactional
+    public User uploadProfileImage(Long userId, MultipartFile profileImageFile) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 id 입니다."));
+
+        String profileImageUrl = fileUploadService.uploadImage(profileImageFile);
+
+        user.updateProfileImage(profileImageUrl);
 
         return user;
     }

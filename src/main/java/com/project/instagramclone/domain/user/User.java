@@ -71,6 +71,10 @@ public class User extends BaseTimeEntity {
         this.gender = userRequestDto.getGender();
     }
 
+    public void updateProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
     // 수혁
 
 //    @OneToMany(mappedBy = "follower")
