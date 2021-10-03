@@ -2,6 +2,8 @@ package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
+import com.project.instagramclone.exception.CustomException;
+import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.web.user.dto.VerifyAccountRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,9 +72,12 @@ public class MailService {
     public void verifyAccount(VerifyAccountRequestDto accountRequestDto) {
 
         User user = userRepository.findByEmail(accountRequestDto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        if (user.getVerificationCode().equals(accountRequestDto.getAuthCode()))
+        if (user.getVerificationCode().equals(accountRequestDto.getAuthCode())) {
             user.changeEnabled(true);
+        } else {
+            throw new CustomException(ErrorCode.MISMATCH_AUTH_CODE);
+        }
     }
 }

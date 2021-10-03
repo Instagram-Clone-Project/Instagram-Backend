@@ -1,8 +1,11 @@
 package com.project.instagramclone.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class CustomException extends RuntimeException {
 
-    public CustomException(String message) {
-        super(message);
-    }
+    private final ErrorCode errorCode;
 }
