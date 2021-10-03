@@ -5,10 +5,7 @@ import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.security.JwtTokenProvider;
-import com.project.instagramclone.web.user.dto.LoginRequestDto;
-import com.project.instagramclone.web.user.dto.LoginResponseDto;
-import com.project.instagramclone.web.user.dto.SignUpRequestDto;
-import com.project.instagramclone.web.user.dto.UserRequestDto;
+import com.project.instagramclone.web.user.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -98,6 +95,25 @@ public class UserService {
         String profileImageUrl = fileUploadService.uploadImage(profileImageFile);
 
         user.updateProfileImage(profileImageUrl);
+
+        return user;
+    }
+
+    @Transactional
+    public User updatePassword(Long userId, PasswordChangeRequestDto passwordChangeRequestDto) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        //첫 번째 조건문: 현재 비밀번호 일치 여부
+        //두 번째 조건문: 새 비밀번호와 비밀번호 확인 일치 여부
+        if (!passwordEncoder.matches(passwordChangeRequestDto.getOldPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.MISMATCH_OLD_PASSWORD);
+        } if (!passwordChangeRequestDto.getNewPassword().equals(passwordChangeRequestDto.getConfirmPassword())) {
+            throw new CustomException(ErrorCode.MISMATCH_CONFIRM_PASSWORD);
+        }
+
+        user.updatePassword(passwordEncoder.encode(passwordChangeRequestDto.getNewPassword()));
 
         return user;
     }

@@ -81,6 +81,10 @@ public class User extends BaseTimeEntity {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     // 수혁
 
 //    @OneToMany(mappedBy = "follower")

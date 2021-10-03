@@ -14,8 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
-
 @Api(tags = {"로그인/회원가입"})
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
@@ -73,5 +71,18 @@ public class UserController {
         principalDetails.setUser(user);
 
         return new ResponseEntity<>("프로필 사진수정 완료", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "비밀번호 변경")
+    @PutMapping("/{userId}/password")
+    public ResponseEntity<String> updatePassword(@PathVariable("userId") Long userId,
+                                                 @RequestBody PasswordChangeRequestDto passwordChangeRequestDto,
+                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        User user = userService.updatePassword(userId, passwordChangeRequestDto);
+
+        principalDetails.setUser(user);
+
+        return new ResponseEntity<>("비밀번호 변경 완료", HttpStatus.OK);
     }
 }
