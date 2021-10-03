@@ -27,7 +27,7 @@ public class UserController {
 
     @ApiOperation(value = "기본 회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto signUpRequestDto) throws MessagingException {
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
 
         userService.signUp(signUpRequestDto);
 

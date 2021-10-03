@@ -59,7 +59,7 @@ public class User extends BaseTimeEntity {
     @JsonIgnore
     private boolean enabled;
 
-    public void createVerificationCode(String verificationCode) {
+    public void changeVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
 
