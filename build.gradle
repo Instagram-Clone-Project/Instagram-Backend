@@ -38,8 +38,16 @@ dependencies {
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9' //사진업로드
-    compile group: 'commons-io', name: 'commons-io', version: '2.6'            //사진업로드
+    //Email 인증 의존성 추가
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    /* 삭제 예정
+    //compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9' //사진업로드
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    //compile group: 'commons-io', name: 'commons-io', version: '2.6'            //사진업로드
+    implementation 'commons-io:commons-io:2.6'
+    */
+
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.0.1.RELEASE'        //aws
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-context', version: '1.2.1.RELEASE'        //aws
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-autoconfigure', version: '1.2.1.RELEASE'  //aws

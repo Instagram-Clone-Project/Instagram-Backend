@@ -1,6 +1,6 @@
 package com.project.instagramclone.web.post.dto;
 
-import com.project.instagramclone.domain.post.entity.Photo;
+import com.project.instagramclone.domain.photo.entity.Photo;
 import lombok.Data;
 
 import java.util.ArrayList;

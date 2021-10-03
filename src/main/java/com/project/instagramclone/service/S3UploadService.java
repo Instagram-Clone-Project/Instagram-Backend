@@ -3,7 +3,8 @@ package com.project.instagramclone.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.project.instagramclone.domain.post.entity.Photo;
+import com.project.instagramclone.PhotoTypeConst;
+import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,6 @@ import java.util.UUID;
 public class S3UploadService {
 
     private final AmazonS3Client amazonS3Client;
-    private final PhotoService photoService;
 
     @Value("${uploadFile.path}")
     public String localPhotoSavePath; //사진이 임시 저장될 경로
@@ -58,11 +58,11 @@ public class S3UploadService {
         Photo photo = new Photo();
         photo.setFileName(fileName);
         photo.setEncFileName(encFileName);
-        photo.setRoute(s3FileName);
+        photo.setRoute("https://ssc-instagram.s3.ap-northeast-2.amazonaws.com/" + s3FileName);
         photo.setFileSize(file.length());
+        photo.setPhotoType(PhotoTypeConst.POST_PHOTO);
         photo.setPost(post);
 
-//        photoService.photoSave(photo);
     }
 
 

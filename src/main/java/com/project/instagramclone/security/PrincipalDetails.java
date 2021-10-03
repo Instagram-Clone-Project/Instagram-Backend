@@ -1,8 +1,10 @@
 package com.project.instagramclone.security;
 
 import com.project.instagramclone.domain.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,10 +12,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
-@RequiredArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+@Setter
+@AllArgsConstructor
+public class PrincipalDetails implements UserDetails {
 
-    private final User user;
+    private User user;
 
     //권한
     @Override
@@ -55,6 +58,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isEnabled();
     }
 }
