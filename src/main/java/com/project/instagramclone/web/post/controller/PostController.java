@@ -1,11 +1,8 @@
 package com.project.instagramclone.web.post.controller;
 
-import com.project.instagramclone.domain.photo.entity.Post;
+import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.user.User;
-import com.project.instagramclone.service.CommentService;
-import com.project.instagramclone.service.PhotoService;
-import com.project.instagramclone.service.PostService;
-import com.project.instagramclone.service.S3UploadService;
+import com.project.instagramclone.service.*;
 import com.project.instagramclone.security.PrincipalDetails;
 import com.project.instagramclone.web.post.dto.PostSaveDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
@@ -27,7 +24,8 @@ public class PostController {
     private final PostService postService;
     private final PhotoService photoService;
     private final CommentService commentService;
-    private final S3UploadService s3UploadService;
+//    private final S3UploadService s3UploadService;
+    private final FileUploadService fileUploadService;
 
     @ApiOperation(value = "게시글 작성", notes = "게시글 작성입니다.")
     @PostMapping("/api/post")
@@ -40,7 +38,8 @@ public class PostController {
 
         List<MultipartFile> files = postSaveDto.getFiles();
         for (MultipartFile file : files) {
-            s3UploadService.uploadSave(file, "static", post);
+            fileUploadService.uploadImageToPost(file, post);
+//            s3UploadService.uploadSave(file, "static", post);
         }
 
         postService.postSave(post);

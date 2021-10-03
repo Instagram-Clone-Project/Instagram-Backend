@@ -1,6 +1,5 @@
 package com.project.instagramclone.web.post.dto;
 
-import com.project.instagramclone.domain.post.entity.Photo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;

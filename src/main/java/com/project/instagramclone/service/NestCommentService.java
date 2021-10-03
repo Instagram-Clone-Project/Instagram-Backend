@@ -8,7 +8,7 @@ import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentRepository;
 import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
-import com.project.instagramclone.domain.photo.entity.Post;
+import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentSaveDto;

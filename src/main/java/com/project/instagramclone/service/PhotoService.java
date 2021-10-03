@@ -1,10 +1,13 @@
 package com.project.instagramclone.service;
 
-import com.project.instagramclone.domain.post.entity.Photo;
+import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.photo.repository.PhotoRepository;
+import com.project.instagramclone.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.File;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,4 +32,6 @@ public class PhotoService {
     public List<Photo> findAllPhotoByPostId(Long postId) {
         return photoRepository.findPhotoListByPostId(postId);
     }
+
+
 }

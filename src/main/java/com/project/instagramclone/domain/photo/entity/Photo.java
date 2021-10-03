@@ -1,7 +1,7 @@
-package com.project.instagramclone.domain.post.entity;
+package com.project.instagramclone.domain.photo.entity;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
-import com.project.instagramclone.domain.photo.entity.Post;
+import com.project.instagramclone.domain.post.entity.Post;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.project.instagramclone.domain.BaseTimeEntity;
 import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.user.User;
-import com.project.instagramclone.domain.photo.entity.Post;
+import com.project.instagramclone.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
