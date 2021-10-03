@@ -8,7 +8,13 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
-    //409 CONFLICT : Response 의 현재 상태와 충돌, 보통 중복된 데이터 존재
+    //400 BAD_REQUEST : 잘못된 요청
+    MISMATCH_AUTH_CODE(HttpStatus.BAD_REQUEST, "인증코드가 일치하지 않습니다."),
+
+    //404 NOT_FOUND : Resource 를 찾을 수 없음
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다."),
+
+    //409 CONFLICT : Resource 의 현재 상태와 충돌, 보통 중복된 데이터 존재
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "중복된 EMAIL 이 존재합니다."),
     DUPLICATE_USERNAME(HttpStatus.CONFLICT, "이미 존재하는 USERNAME 입니다."),
 
