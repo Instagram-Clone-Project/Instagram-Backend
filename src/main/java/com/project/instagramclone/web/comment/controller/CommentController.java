@@ -53,4 +53,6 @@ public class CommentController {
     public List<CommentVo> getComments(@PathVariable("post_id") Long postId){
         return commentService.getComments(postId);
     }
+
+
 }
