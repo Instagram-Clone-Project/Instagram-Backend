@@ -3,7 +3,6 @@ package com.project.instagramclone.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.project.instagramclone.PhotoTypeConst;
 import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +59,6 @@ public class S3UploadService {
         photo.setEncFileName(encFileName);
         photo.setRoute("https://ssc-instagram.s3.ap-northeast-2.amazonaws.com/" + s3FileName);
         photo.setFileSize(file.length());
-        photo.setPhotoType(PhotoTypeConst.POST_PHOTO);
         photo.setPost(post);
 
     }

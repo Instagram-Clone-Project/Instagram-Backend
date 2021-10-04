@@ -4,11 +4,14 @@ import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.service.*;
 import com.project.instagramclone.security.PrincipalDetails;
+import com.project.instagramclone.web.exception.ErrorResult;
 import com.project.instagramclone.web.post.dto.PostSaveDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,12 +27,11 @@ public class PostController {
     private final PostService postService;
     private final PhotoService photoService;
     private final CommentService commentService;
-//    private final S3UploadService s3UploadService;
     private final FileUploadService fileUploadService;
 
     @ApiOperation(value = "게시글 작성", notes = "게시글 작성입니다.")
     @PostMapping("/api/post")
-    public void postSave(@ModelAttribute PostSaveDto postSaveDto, @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
+    public ResponseEntity<String> postSave(@ModelAttribute PostSaveDto postSaveDto, @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
         Post post = new Post();
         post.setContent(postSaveDto.getContent());
 
@@ -39,26 +41,36 @@ public class PostController {
         List<MultipartFile> files = postSaveDto.getFiles();
         for (MultipartFile file : files) {
             fileUploadService.uploadImageToPost(file, post);
-//            s3UploadService.uploadSave(file, "static", post);
         }
 
         postService.postSave(post);
+
+        return new ResponseEntity<>("게시글 작성 성공", HttpStatus.OK);
     }
 
 
     @ApiOperation(value = "게시글 삭제", notes = "{post_id}에는 지워질 post의 pk값입니다. post와 연관된 photo 데이터, comment 데이터도 삭제됩니다.")
     @DeleteMapping("/api/post/{post_id}")
-    public void postDelete(@PathVariable("post_id") Long postId) {
+    public ResponseEntity<String> postDelete(@PathVariable("post_id") Long postId) {
         Post findPost = postService.findOne(postId);
         postService.removePost(findPost);
+
+        return new ResponseEntity<>("게시글 삭제 성공", HttpStatus.OK);
     }
 
     @ApiOperation(value = "게시글 조회")
-    @GetMapping("/api/post")
+    @PostMapping("/api/post")
     public List<PostShowDto> postAllShow(@AuthenticationPrincipal PrincipalDetails userDetails) {
         User user = userDetails.getUser();
         return postService.getPostList(user.getUserId());
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorResult illegalHandle(IllegalArgumentException e) {
+        return new ErrorResult("ERROR", "내부 오류");
+    }
+
 
 //    @GetMapping("/api/post/{post_id}")
 //    public void postShow(@PathVariable("post_id") Long postId) {
