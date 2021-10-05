@@ -3,18 +3,20 @@ package com.project.instagramclone.service;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.exception.CustomException;
+import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.security.JwtTokenProvider;
-import com.project.instagramclone.web.user.dto.LoginRequestDto;
-import com.project.instagramclone.web.user.dto.LoginResponseDto;
-import com.project.instagramclone.web.user.dto.SignUpRequestDto;
-import com.project.instagramclone.web.user.dto.UserRequestDto;
+import com.project.instagramclone.web.user.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.mail.MessagingException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -27,21 +29,33 @@ public class UserService {
     private final FileUploadService fileUploadService;
 
     @Transactional
-    public void signUp(SignUpRequestDto signUpRequestDto) throws MessagingException {
+    public void signUp(SignUpRequestDto signUpRequestDto) {
 
+        String email = signUpRequestDto.getEmail();
+        String username = signUpRequestDto.getUsername();
+
+        if (userRepository.existsByEmail(email)) {
+            throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
+        } if (userRepository.existsByUsername(username)) {
+            throw new CustomException(ErrorCode.DUPLICATE_USERNAME);
+        }
         //암호화된 비밀번호
         String encPassword = passwordEncoder.encode(signUpRequestDto.getPassword());
 
         signUpRequestDto.setPassword(encPassword);
-
+        //DB 내 User 테이블에 회원 저장 (회원가입 o, 활성화 x)
         User user = userRepository.save(signUpRequestDto.toEntity());
-
+        //인증코드 생성
         String authCode = mailService.generateAuthCode();
 
-        user.createVerificationCode(authCode);
+        user.changeVerificationCode(authCode);
         user.changeEnabled(false);
-
-        mailService.sendMail(signUpRequestDto.getEmail(), authCode);
+        //인증코드 전송
+        try {
+            mailService.sendMail(signUpRequestDto.getEmail(), authCode);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Transactional
@@ -65,7 +79,7 @@ public class UserService {
     public User update(Long userId, UserRequestDto userRequestDto) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException("찾을 수 없는 id 입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.updateUser(userRequestDto);
 
@@ -81,6 +95,25 @@ public class UserService {
         String profileImageUrl = fileUploadService.uploadImage(profileImageFile);
 
         user.updateProfileImage(profileImageUrl);
+
+        return user;
+    }
+
+    @Transactional
+    public User updatePassword(Long userId, PasswordChangeRequestDto passwordChangeRequestDto) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        //첫 번째 조건문: 현재 비밀번호 일치 여부
+        //두 번째 조건문: 새 비밀번호와 비밀번호 확인 일치 여부
+        if (!passwordEncoder.matches(passwordChangeRequestDto.getOldPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.MISMATCH_OLD_PASSWORD);
+        } if (!passwordChangeRequestDto.getNewPassword().equals(passwordChangeRequestDto.getConfirmPassword())) {
+            throw new CustomException(ErrorCode.MISMATCH_CONFIRM_PASSWORD);
+        }
+
+        user.updatePassword(passwordEncoder.encode(passwordChangeRequestDto.getNewPassword()));
 
         return user;
     }

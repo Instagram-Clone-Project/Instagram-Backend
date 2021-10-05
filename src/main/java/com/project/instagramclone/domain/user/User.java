@@ -63,7 +63,7 @@ public class User extends BaseTimeEntity {
     @JsonIgnore
     private boolean enabled;
 
-    public void createVerificationCode(String verificationCode) {
+    public void changeVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
 
@@ -83,6 +83,10 @@ public class User extends BaseTimeEntity {
 
     public void updateProfileImage(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 
     // 수혁
