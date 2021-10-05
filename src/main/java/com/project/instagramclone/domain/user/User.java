@@ -2,11 +2,14 @@ package com.project.instagramclone.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.instagramclone.domain.BaseTimeEntity;
+import com.project.instagramclone.domain.follow.Follow;
 import com.project.instagramclone.web.user.dto.UserRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ToString
 @Getter
@@ -31,6 +34,7 @@ public class User extends BaseTimeEntity {
     //사용자 아이디
     @Column(nullable = false, unique = true)
     private String username;
+
 
     @JsonIgnore
     @Column(nullable = false)
@@ -83,10 +87,25 @@ public class User extends BaseTimeEntity {
 
     // 수혁
 
-//    @OneToMany(mappedBy = "follower")
-//    private List<Follow> follwer;
+//    @OneToMany(mappedBy = "follwing")
+//    @Builder.Default
+//    private List<User> follwer = new ArrayList<>();
 //
-//    @OneToMany(mappedBy = "following")
-//    private List<Follow> follwing;
+//    @OneToMany(mappedBy = "follwer")
+//    @Builder.Default
+//    private List<User> follwing = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userId, user.userId) && Objects.equals(name, user.name) && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, name, username);
+    }
 
 }

@@ -5,12 +5,15 @@ import com.project.instagramclone.domain.follow.FollowQueryRepository;
 import com.project.instagramclone.domain.follow.FollowRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
-import com.project.instagramclone.web.follow.dto.FollowInfoDto;
+import com.project.instagramclone.web.follow.dto.FollowCntDto;
 import com.project.instagramclone.web.follow.dto.FollowSaveDto;
+import com.project.instagramclone.web.follow.dto.FollowerListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +33,8 @@ public class FollowService {
         followSaveDto.setFromUser(fromUser);
         followSaveDto.setToUser(toUser);
 
+        Follow follow = followSaveDto.toEntity();
+
         followRepository.save(followSaveDto.toEntity());
     }
 
@@ -44,16 +49,45 @@ public class FollowService {
     }
 
     @Transactional
-    public FollowInfoDto getFollowInfo(Long userId) {
+    public FollowCntDto getFollowInfo(Long userId) {
         Long follow = followQueryRepository.getFollow(userId);
         Long follower = followQueryRepository.getFollowing(userId);
 
-        FollowInfoDto followInfoDto = new FollowInfoDto();
-        followInfoDto.setFollow(follow);
-        followInfoDto.setFollower(follower);
+        FollowCntDto followCntDto = new FollowCntDto();
+        followCntDto.setFollowing(follow);
+        followCntDto.setFollowing(follower);
 
-        return followInfoDto;
+        return followCntDto;
     }
 
+    @Transactional
+    public List<FollowerListDto> getFollowerList(Long userId, User loginUser) {
+        List<Follow> followList = followQueryRepository.findFollowList(userId);
 
+        System.out.println(followList.size());
+        List<FollowerListDto> followerListDtos = new ArrayList<>();
+
+        for(Follow f : followList){
+            if(f.getFollowing().getUserId() == loginUser.getUserId()) continue; // 자기 자신 스킵
+
+            FollowerListDto tmp = new FollowerListDto();
+
+            User user = userRepository.findById(f.getFollowing().getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 유저가 없습니다"));
+
+            tmp.setUsername(user.getUsername());
+            tmp.setProfileImageUrl(user.getProfileImageUrl());
+
+            Optional<Follow> relation = followQueryRepository.findRelation(loginUser.getUserId(), f.getFollowing().getUserId());
+
+            if(relation.isPresent()){
+                tmp.setFollowRelation(true);
+            }
+            else{
+                tmp.setFollowRelation(false);
+            }
+            followerListDtos.add(tmp);
+        }
+
+        return followerListDtos;
+    }
 }
