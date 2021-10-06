@@ -59,7 +59,7 @@ public class PostController {
     }
 
     @ApiOperation(value = "게시글 조회")
-    @PostMapping("/api/post")
+    @GetMapping("/api/post")
     public List<PostShowDto> postAllShow(@AuthenticationPrincipal PrincipalDetails userDetails) {
         User user = userDetails.getUser();
         return postService.getPostList(user.getUserId());
