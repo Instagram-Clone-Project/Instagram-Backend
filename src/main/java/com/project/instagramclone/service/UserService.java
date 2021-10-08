@@ -7,16 +7,12 @@ import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.security.JwtTokenProvider;
 import com.project.instagramclone.web.user.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.mail.MessagingException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -62,10 +58,14 @@ public class UserService {
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 유저입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        //첫 번째 조건문: 비밀번호 일치 여부
+        //두 번째 조건문: (회원가입 시 정상적인) 이메일 인증 -> 활성화 여부
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new CustomException(ErrorCode.MISMATCH_PASSWORD);
+        } if (!user.isEnabled()) {
+            throw new CustomException(ErrorCode.NOT_CERTIFIED_EMAIL);
         }
 
         return LoginResponseDto.builder()
@@ -90,7 +90,7 @@ public class UserService {
     public User uploadProfileImage(Long userId, MultipartFile profileImageFile) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 id 입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         String profileImageUrl = fileUploadService.uploadImage(profileImageFile);
 

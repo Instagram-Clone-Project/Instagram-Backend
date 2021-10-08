@@ -14,6 +14,9 @@ public enum ErrorCode {
     MISMATCH_OLD_PASSWORD(HttpStatus.BAD_REQUEST, "이전 비밀번호가 잘못 입력되었습니다. 다시 입력해주세요."),
     MISMATCH_CONFIRM_PASSWORD(HttpStatus.BAD_REQUEST, "두 비밀번호가 일치하는지 확인하세요."),
 
+    //401 UNAUTHORIZED : 인증되지 않은 사용자
+    NOT_CERTIFIED_EMAIL(HttpStatus.UNAUTHORIZED, "이메일 인증이 되지 않았습니다. 이메일 활성화 후 다시 로그인해주세요."),
+
     //404 NOT_FOUND : Resource 를 찾을 수 없음
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다."),
 

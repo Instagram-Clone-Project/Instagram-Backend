@@ -6,7 +6,6 @@ import com.project.instagramclone.web.user.dto.UserRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @ToString
 @Getter
@@ -84,13 +83,4 @@ public class User extends BaseTimeEntity {
     public void updatePassword(String password) {
         this.password = password;
     }
-
-    // 수혁
-
-//    @OneToMany(mappedBy = "follower")
-//    private List<Follow> follwer;
-//
-//    @OneToMany(mappedBy = "following")
-//    private List<Follow> follwing;
-
 }

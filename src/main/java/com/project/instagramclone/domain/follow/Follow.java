@@ -7,6 +7,7 @@ package com.project.instagramclone.domain.follow;
         import lombok.NoArgsConstructor;
 
         import javax.persistence.*;
+        import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -25,6 +26,5 @@ public class Follow {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "follwer_id")
     private User follwer;
-
 
 }
