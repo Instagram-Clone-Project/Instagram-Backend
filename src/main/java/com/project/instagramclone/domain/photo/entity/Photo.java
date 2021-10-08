@@ -18,7 +18,6 @@ public class Photo extends BaseTimeEntity {
     private String encFileName;
     private String route;
     private Long fileSize;
-    private String photoType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")

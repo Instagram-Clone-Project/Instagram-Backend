@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -43,7 +45,7 @@ public class FileUploadService {
     //파일의 확장자명을 가져오는 로직
     private String getFileExtension(String fileName) {
         try {
-            return fileName.substring(fileName.lastIndexOf("."));
+            return fileName.substring(fileName.lastIndexOf(".")+1);
         } catch (StringIndexOutOfBoundsException e) {
             throw new IllegalArgumentException(String.format("잘못된 형식의 파일 (%s) 입니다", fileName));
         }
@@ -51,13 +53,19 @@ public class FileUploadService {
 
     public void uploadImageToPost(MultipartFile file, Post post) {
         String fileName = createdFileName(file.getOriginalFilename());
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-
-        objectMetadata.setContentLength(file.getSize());
-        objectMetadata.setContentType(file.getContentType());
+//        ObjectMetadata objectMetadata = new ObjectMetadata();
+//
+//        objectMetadata.setContentLength(file.getSize());
+//        objectMetadata.setContentType(file.getContentType());
 
         try (InputStream inputStream = file.getInputStream()) {
-            s3UploadService.uploadFile(inputStream, objectMetadata, fileName);
+            InputStream resizedPhoto = resizePhoto(inputStream, 600, 600, getFileExtension(file.getOriginalFilename()));
+
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(resizedPhoto.available());
+            objectMetadata.setContentType(getFileExtension(getFileExtension(file.getOriginalFilename())));
+
+            s3UploadService.uploadFile(resizedPhoto, objectMetadata, fileName);
             savePhotoToPost(file, fileName, post);
         } catch (IOException e) {
             throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발행하였습니다 (%s)",file.getOriginalFilename()));
@@ -72,6 +80,21 @@ public class FileUploadService {
         photo.setRoute(baseUrl + route);
         photo.setFileSize(file.getSize());
         photo.setPost(post);
+    }
+
+    public InputStream resizePhoto(InputStream inputStream, int width, int height, String extension) throws IOException {
+        BufferedImage inputImage = ImageIO.read(inputStream);
+        BufferedImage outputImage = new BufferedImage(width, height, inputImage.getType());
+
+        Graphics2D graphics2D = outputImage.createGraphics();
+        graphics2D.drawImage(inputImage,0,0, width, height, null);
+        graphics2D.dispose();
+
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(outputImage, extension, baos);
+
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 
 

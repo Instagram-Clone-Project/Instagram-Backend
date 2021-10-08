@@ -4,7 +4,6 @@ import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.service.*;
 import com.project.instagramclone.security.PrincipalDetails;
-import com.project.instagramclone.web.exception.ErrorResult;
 import com.project.instagramclone.web.post.dto.PostSaveDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
 import io.swagger.annotations.Api;
@@ -65,11 +64,11 @@ public class PostController {
         return postService.getPostList(user.getUserId());
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResult illegalHandle(IllegalArgumentException e) {
-        return new ErrorResult("ERROR", "내부 오류");
-    }
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public ErrorResult illegalHandle(IllegalArgumentException e) {
+//        return new ErrorResult("ERROR", "내부 오류");
+//    }
 
 
 //    @GetMapping("/api/post/{post_id}")
