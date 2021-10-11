@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     //400 BAD_REQUEST : 잘못된 요청
+    INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "접근 토큰이 유효하지 않습니다."),
+    MISMATCH_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "접근 토큰의 유저 정보가 일치하지 않습니다."),
     MISMATCH_AUTH_CODE(HttpStatus.BAD_REQUEST, "인증코드가 일치하지 않습니다."),
     MISMATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     MISMATCH_OLD_PASSWORD(HttpStatus.BAD_REQUEST, "이전 비밀번호가 잘못 입력되었습니다. 다시 입력해주세요."),

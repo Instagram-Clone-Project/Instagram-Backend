@@ -1,9 +1,6 @@
 package com.project.instagramclone.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +21,7 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private long tokenValidTime = 1000L * 60 * 60; //유효시간 1시간
+    private long accessValidTime = 1000L * 60 * 60; //유효시간 1시간
 
     private final UserDetailsService userDetailsService;
 
@@ -36,20 +33,18 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String generateToken(String userId, String username, String name) {
+    public String generateToken(String username) {
 
         Claims claims = Jwts.claims().setSubject(username);
 
-        claims.put("userId", userId);
         claims.put("username", username);
-        claims.put("name", name);
 
         Date now = new Date();
 
         return Jwts.builder()
                 .setClaims(claims) //정보 저장
                 .setIssuedAt(now) //토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + tokenValidTime)) //만료시간 설정
+                .setExpiration(new Date(now.getTime() + accessValidTime)) //만료시간 설정
                 .signWith(SignatureAlgorithm.HS256, secretKey) //사용할 암호화 알고리즘과 Signature에 들어갈 secret 값 세팅
                 .compact();
     }
@@ -67,9 +62,15 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    //request의 Header에서 토큰값을 가져옴 "TOKEN" : "TOKEN 값"
+    //request의 Header에서 토큰값을 가져옴 "Authorization" : "TOKEN 값"
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("TOKEN");
+        String token = request.getHeader("Authorization");
+
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        }
+
+        return null;
     }
 
     //토큰의 유효성 + 만료일자 확인

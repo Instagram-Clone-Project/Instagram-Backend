@@ -1,5 +1,7 @@
 package com.project.instagramclone.security;
 
+import com.project.instagramclone.exception.CustomException;
+import com.project.instagramclone.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +21,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        //System.out.println("doFilter 실행중");
+        //System.out.println("JwtAuthenticationFilter 실행중");
         //헤더에서 JWT를 받아옴
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
         //유효한 토큰인지 확인
