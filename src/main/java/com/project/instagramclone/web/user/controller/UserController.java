@@ -48,12 +48,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "프로필 편집")
-    @PutMapping("/{userId}/update")
-    public ResponseEntity<String> update(@PathVariable("userId") Long userId,
-                                         @RequestBody UserRequestDto userRequestDto,
+    @PutMapping("/update")
+    public ResponseEntity<String> update(@RequestBody UserRequestDto userRequestDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        User user = userService.update(userId, userRequestDto);
+        User user = userService.update(principalDetails.getUser().getUserId(), userRequestDto);
 
         principalDetails.setUser(user);
 
@@ -61,12 +60,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "프로필 사진 수정")
-    @PostMapping("/{userId}/update/image")
-    public ResponseEntity<String> uploadProfileImage(@PathVariable("userId") Long userId,
-                                     @RequestPart MultipartFile profileImageFile,
-                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    @PostMapping("/update/image")
+    public ResponseEntity<String> uploadProfileImage(@RequestPart MultipartFile profileImageFile,
+                                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        User user = userService.uploadProfileImage(userId, profileImageFile);
+        User user = userService.uploadProfileImage(principalDetails.getUser().getUserId(), profileImageFile);
 
         principalDetails.setUser(user);
 
@@ -74,12 +72,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "비밀번호 변경")
-    @PutMapping("/{userId}/password")
-    public ResponseEntity<String> updatePassword(@PathVariable("userId") Long userId,
-                                                 @RequestBody PasswordChangeRequestDto passwordChangeRequestDto,
+    @PutMapping("/password")
+    public ResponseEntity<String> updatePassword(@RequestBody PasswordChangeRequestDto passwordChangeRequestDto,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        User user = userService.updatePassword(userId, passwordChangeRequestDto);
+        User user = userService.updatePassword(principalDetails.getUser().getUserId(), passwordChangeRequestDto);
 
         principalDetails.setUser(user);
 

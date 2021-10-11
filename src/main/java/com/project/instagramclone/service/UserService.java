@@ -71,7 +71,7 @@ public class UserService {
         return LoginResponseDto.builder()
                 .username(user.getUsername())
                 .profileImageUrl(user.getProfileImageUrl())
-                .accessToken(jwtTokenProvider.generateToken(Long.toString(user.getUserId()), user.getUsername(), user.getName()))
+                .accessToken(jwtTokenProvider.generateToken(user.getUsername()))
                 .build();
     }
 

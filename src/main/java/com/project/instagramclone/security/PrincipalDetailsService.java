@@ -2,6 +2,8 @@ package com.project.instagramclone.security;
 
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
+import com.project.instagramclone.exception.CustomException;
+import com.project.instagramclone.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +20,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //System.out.println("loadUserByUsername 실행중");
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("\"" +username + "\" 사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MISMATCH_ACCESS_TOKEN));
 
         return new PrincipalDetails(user);
     }
