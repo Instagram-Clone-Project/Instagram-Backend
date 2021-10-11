@@ -25,11 +25,11 @@ public class UserController {
 
     @ApiOperation(value = "기본 회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
+    public ResponseEntity<SuccessResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
 
         userService.signUp(signUpRequestDto);
 
-        return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("회원가입 완료").build(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "기본 로그인")
@@ -40,35 +40,35 @@ public class UserController {
 
     @ApiOperation(value = "이메일 인증번호 일치 여부 확인")
     @PostMapping("/signup/mail")
-    public ResponseEntity<String> verifyAccount(@RequestBody VerifyAccountRequestDto accountRequestDto) {
+    public ResponseEntity<SuccessResponseDto> verifyAccount(@RequestBody VerifyAccountRequestDto accountRequestDto) {
 
         mailService.verifyAccount(accountRequestDto);
 
-        return new ResponseEntity<>("계정 활성화가 성공적으로 되었습니다.", HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("계정 활성화가 성공적으로 되었습니다.").build(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로필 편집")
     @PutMapping("/profile")
-    public ResponseEntity<String> update(@RequestBody UserRequestDto userRequestDto,
-                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<SuccessResponseDto> update(@RequestBody UserRequestDto userRequestDto,
+                                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         User user = userService.update(principalDetails.getUser().getUserId(), userRequestDto);
 
         principalDetails.setUser(user);
 
-        return new ResponseEntity<>("회원수정 완료", HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("회원수정 완료").build(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로필 사진 수정")
     @PostMapping("/profile/image")
-    public ResponseEntity<String> uploadProfileImage(@RequestPart MultipartFile profileImageFile,
-                                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<SuccessResponseDto> uploadProfileImage(@RequestPart MultipartFile profileImageFile,
+                                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         User user = userService.uploadProfileImage(principalDetails.getUser().getUserId(), profileImageFile);
 
         principalDetails.setUser(user);
 
-        return new ResponseEntity<>("프로필 사진수정 완료", HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("프로필 사진수정 완료").build(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로필 사진 삭제")
@@ -84,13 +84,13 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 변경")
     @PutMapping("/password")
-    public ResponseEntity<String> updatePassword(@RequestBody PasswordChangeRequestDto passwordChangeRequestDto,
-                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<SuccessResponseDto> updatePassword(@RequestBody PasswordChangeRequestDto passwordChangeRequestDto,
+                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         User user = userService.updatePassword(principalDetails.getUser().getUserId(), passwordChangeRequestDto);
 
         principalDetails.setUser(user);
 
-        return new ResponseEntity<>("비밀번호 변경 완료", HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("비밀번호 변경 완료").build(), HttpStatus.OK);
     }
 }
