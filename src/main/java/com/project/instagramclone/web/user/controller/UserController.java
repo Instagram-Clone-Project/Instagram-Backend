@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "프로필 편집")
-    @PutMapping("/update")
+    @PutMapping("/profile")
     public ResponseEntity<String> update(@RequestBody UserRequestDto userRequestDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "프로필 사진 수정")
-    @PostMapping("/update/image")
+    @PostMapping("/profile/image")
     public ResponseEntity<String> uploadProfileImage(@RequestPart MultipartFile profileImageFile,
                                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
@@ -69,6 +69,17 @@ public class UserController {
         principalDetails.setUser(user);
 
         return new ResponseEntity<>("프로필 사진수정 완료", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "프로필 사진 삭제")
+    @DeleteMapping("/profile/image")
+    public ResponseEntity<SuccessResponseDto> deleteProfileImage(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        User user = userService.deleteProfileImage(principalDetails.getUser().getUserId(), principalDetails.getUser().getProfileImageUrl());
+
+        principalDetails.setUser(user);
+
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("프로필 사진삭제 완료").build(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "비밀번호 변경")

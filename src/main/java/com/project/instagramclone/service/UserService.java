@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -95,6 +96,17 @@ public class UserService {
         String profileImageUrl = fileUploadService.uploadImage(profileImageFile);
 
         user.updateProfileImage(profileImageUrl);
+
+        return user;
+    }
+
+    @Transactional
+    public User deleteProfileImage(Long userId, String profileImageUrl) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.updateProfileImage(null);
 
         return user;
     }
