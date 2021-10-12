@@ -40,8 +40,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserRole role;
 
-    //아래 필드들은 필수X
-    //나중에 수정 예정
     private String webSite;
 
     private String description;
