@@ -1,7 +1,9 @@
 package com.project.instagramclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.instagramclone.domain.BaseTimeEntity;
 import com.project.instagramclone.domain.comment.Comment;
+import com.project.instagramclone.domain.likes.Likes;
 import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.user.User;
 import lombok.Getter;
@@ -29,8 +31,8 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "post")
-//    private List<Like> Likes = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Likes> likes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
