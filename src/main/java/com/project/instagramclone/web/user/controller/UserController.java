@@ -47,12 +47,18 @@ public class UserController {
         return new ResponseEntity<>(SuccessResponseDto.builder().message("계정 활성화가 성공적으로 되었습니다.").build(), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "프로필 편집")
-    @PutMapping("/profile")
-    public ResponseEntity<SuccessResponseDto> update(@RequestBody UserRequestDto userRequestDto,
+    @ApiOperation(value = "프로필 편집 (기본 정보)")
+    @GetMapping("/profile/edit")
+    public ResponseEntity<EditResponseDto> info(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return new ResponseEntity<>(userService.info(principalDetails.getUser().getUserId()), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "프로필 편집 (수정)")
+    @PutMapping("/profile/edit")
+    public ResponseEntity<SuccessResponseDto> update(@RequestBody EditRequestDto editRequestDto,
                                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        User user = userService.update(principalDetails.getUser().getUserId(), userRequestDto);
+        User user = userService.update(principalDetails.getUser().getUserId(), editRequestDto);
 
         principalDetails.setUser(user);
 

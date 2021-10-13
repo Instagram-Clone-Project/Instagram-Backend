@@ -2,7 +2,7 @@ package com.project.instagramclone.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.instagramclone.domain.BaseTimeEntity;
-import com.project.instagramclone.web.user.dto.UserRequestDto;
+import com.project.instagramclone.web.user.dto.EditRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -64,14 +64,14 @@ public class User extends BaseTimeEntity {
         this.enabled = enabled;
     }
 
-    public void updateUser(UserRequestDto userRequestDto) {
-        this.name = userRequestDto.getName();
-        this.username = userRequestDto.getUsername();
-        this.webSite = userRequestDto.getWebsite();
-        this.description = userRequestDto.getDescription();
-        this.email = userRequestDto.getEmail();
-        this.phoneNumber = userRequestDto.getPhoneNumber();
-        this.gender = userRequestDto.getGender();
+    public void updateUser(EditRequestDto editRequestDto) {
+        this.name = editRequestDto.getName();
+        this.username = editRequestDto.getUsername();
+        this.webSite = editRequestDto.getWebsite();
+        this.description = editRequestDto.getDescription();
+        this.email = editRequestDto.getEmail();
+        this.phoneNumber = editRequestDto.getPhoneNumber();
+        this.gender = editRequestDto.getGender();
     }
 
     public void updateProfileImage(String profileImageUrl) {

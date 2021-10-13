@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -77,14 +76,24 @@ public class UserService {
     }
 
     @Transactional
-    public User update(Long userId, UserRequestDto userRequestDto) {
+    public User update(Long userId, EditRequestDto editRequestDto) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        user.updateUser(userRequestDto);
+        user.updateUser(editRequestDto);
 
         return user;
+    }
+
+    @Transactional
+    public EditResponseDto info(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return new EditResponseDto(user);
+
     }
 
     @Transactional

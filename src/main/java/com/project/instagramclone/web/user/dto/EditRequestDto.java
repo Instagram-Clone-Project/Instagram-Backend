@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequestDto {
+public class EditRequestDto {
 
     private String name;
     private String username;
