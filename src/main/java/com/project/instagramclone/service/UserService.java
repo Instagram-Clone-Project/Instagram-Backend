@@ -93,7 +93,6 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return new EditResponseDto(user);
-
     }
 
     @Transactional
@@ -137,5 +136,31 @@ public class UserService {
         user.updatePassword(passwordEncoder.encode(passwordChangeRequestDto.getNewPassword()));
 
         return user;
+    }
+
+    @Transactional
+    public void resetPassword(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        String authCode = mailService.generateAuthCode();
+
+        user.changeVerificationCode(authCode);
+        //인증코드 전송
+        try {
+            mailService.sendMail(email, authCode);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Transactional
+    public void recoveryPassword(RecoveryRequestDto recoveryRequestDto) {
+
+        User user = userRepository.findByEmail(recoveryRequestDto.getEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        user.updatePassword(passwordEncoder.encode(recoveryRequestDto.getNewPassword()));
     }
 }
