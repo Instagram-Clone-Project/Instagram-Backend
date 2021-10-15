@@ -2,6 +2,7 @@ package com.project.instagramclone.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -44,6 +45,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .globalOperationParameters(global)
+                .ignoredParameterTypes(AuthenticationPrincipal.class)
                 .select()
                 //Swagger를 적용할 클래스의 package명
                 .apis(RequestHandlerSelectors.basePackage("com.project.instagramclone"))
