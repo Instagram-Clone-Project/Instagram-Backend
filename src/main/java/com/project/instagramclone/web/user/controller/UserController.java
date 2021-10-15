@@ -14,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+
 @Api(tags = {"로그인/회원가입"})
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
@@ -25,7 +27,7 @@ public class UserController {
 
     @ApiOperation(value = "기본 회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<SuccessResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
+    public ResponseEntity<SuccessResponseDto> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
 
         userService.signUp(signUpRequestDto);
 
@@ -34,7 +36,7 @@ public class UserController {
 
     @ApiOperation(value = "기본 로그인")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
     }
 
@@ -44,7 +46,7 @@ public class UserController {
 
         mailService.verifyAccount(accountRequestDto);
 
-        return new ResponseEntity<>(SuccessResponseDto.builder().message("계정 활성화가 성공적으로 되었습니다.").build(), HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("계정 활성화 완료").build(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로필 편집 (기본 정보)")
@@ -90,7 +92,7 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 변경")
     @PutMapping("/password/change")
-    public ResponseEntity<SuccessResponseDto> updatePassword(@RequestBody PasswordChangeRequestDto passwordChangeRequestDto,
+    public ResponseEntity<SuccessResponseDto> updatePassword(@Valid @RequestBody PasswordChangeRequestDto passwordChangeRequestDto,
                                                              @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         User user = userService.updatePassword(principalDetails.getUser().getUserId(), passwordChangeRequestDto);
@@ -100,7 +102,7 @@ public class UserController {
         return new ResponseEntity<>(SuccessResponseDto.builder().message("비밀번호 변경 완료").build(), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "비밀번호 찾기")
+    @ApiOperation(value = "비밀번호 찾기 (이메일 인증번호 전송)")
     @PostMapping("/password/reset")
     public ResponseEntity<SuccessResponseDto> resetPassword(@RequestParam String email) {
 
@@ -110,13 +112,13 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @ApiOperation(value = "비밀번호 찾기 (이메일 인증번호 전송)")
+    @ApiOperation(value = "비밀번호 찾기 (인증번호 확인 후 사용자 정보 전송)")
     @PostMapping("/password/reset/mail")
     public ResponseEntity<ResetResponseDto> verifyAccount(@RequestBody ResetRequestDto resetRequestDto) {
         return new ResponseEntity<>(mailService.verifyAccount(resetRequestDto), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "비밀번호 찾기 (변경)")
+    @ApiOperation(value = "비밀번호 찾기 (비밀번호 변경)")
     @PostMapping("password/recovery")
     public ResponseEntity<SuccessResponseDto> recoveryPassword(@RequestBody RecoveryRequestDto recoveryRequestDto) {
 
