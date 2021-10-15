@@ -37,12 +37,12 @@ class FollowServiceTest {
         String username = "Mo";
         String password = "test1234!";
 
-        SignUpRequestDto signUpRequestDto = SignUpRequestDto.builder()
-                .email(email)
-                .name(memberName)
-                .username(username)
-                .password(password)
-                .build();
+//        SignUpRequestDto signUpRequestDto = SignUpRequestDto.builder()
+//                .email(email)
+//                .name(memberName)
+//                .username(username)
+//                .password(password)
+//                .build();
 
 
         String email2 = "Test2@Test.com";
@@ -50,13 +50,13 @@ class FollowServiceTest {
         String username2 = "Su";
         String password2 = "test1234!";
 
-        SignUpRequestDto signUpRequestDto2 = SignUpRequestDto.builder()
-                .email(email2)
-                .name(memberName2)
-                .username(username2)
-                .password(password2)
-                .build();
-        userRepository.save(signUpRequestDto.toEntity());
-        userRepository.save(signUpRequestDto2.toEntity());
+//        SignUpRequestDto signUpRequestDto2 = SignUpRequestDto.builder()
+//                .email(email2)
+//                .name(memberName2)
+//                .username(username2)
+//                .password(password2)
+//                .build();
+//        userRepository.save(signUpRequestDto.toEntity());
+//        userRepository.save(signUpRequestDto2.toEntity());
     }
 }
