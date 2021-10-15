@@ -5,13 +5,15 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @ApiModel(value = "기본 응답 정보")
-@Builder
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SuccessResponseDto {
 
     @ApiModelProperty(example = "기본 응답 메세지")
     private String message;
+
+    @Builder
+    private SuccessResponseDto(String message) {
+        this.message = message;
+    }
 }

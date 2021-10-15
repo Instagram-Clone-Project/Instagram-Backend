@@ -2,17 +2,17 @@ package com.project.instagramclone.web.user.dto;
 
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRole;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+@ApiModel(value = "회원가입 요청 정보")
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignUpRequestDto {
 
     //@ApiModelProperty(example = "전화번호")
