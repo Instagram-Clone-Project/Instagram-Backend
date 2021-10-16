@@ -126,4 +126,10 @@ public class UserController {
 
         return new ResponseEntity<>(SuccessResponseDto.builder().message("비밀번호 변경 완료").build(), HttpStatus.OK);
     }
+
+    @GetMapping("/profile/{username}")
+    public ResponseEntity<ProfileResponseDto> mainProfile(@PathVariable String username,
+                                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return new ResponseEntity<>(userService.mainProfile(username), HttpStatus.OK);
+    }
 }

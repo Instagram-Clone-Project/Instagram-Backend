@@ -2,10 +2,13 @@ package com.project.instagramclone.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.instagramclone.domain.BaseTimeEntity;
+import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.web.user.dto.EditRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Getter
@@ -55,6 +58,9 @@ public class User extends BaseTimeEntity {
     //이메일 인증 활성화 여부
     @JsonIgnore
     private boolean enabled;
+
+    @OneToMany(mappedBy = "user")
+    List<Post> posts = new ArrayList<>();
 
     public void changeVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
