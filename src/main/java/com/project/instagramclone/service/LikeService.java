@@ -1,7 +1,7 @@
 package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.likes.Likes;
-import com.project.instagramclone.domain.likes.LikesRepository;
+import com.project.instagramclone.domain.likes.LikeRepository;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LikeService {
 
-    private final LikesRepository likesRepository;
+    private final LikeRepository likeRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
@@ -30,18 +30,18 @@ public class LikeService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("좋아요 기능에서 찾는 글 번호가 없습니다."));
 
-        Likes findLike = likesRepository.findByUserAndPost(user, post)
+        Likes findLike = likeRepository.findByUserAndPost(user, post)
                 .orElse(null);
 
         if (findLike == null) {
-            likesRepository.save(Likes.builder()
+            likeRepository.save(Likes.builder()
                     .user(user)
                     .post(post)
                     .build());
         } else {
-            likesRepository.deleteById(findLike.getLikesId());
+            likeRepository.deleteById(findLike.getLikesId());
         }
 
-        return new LikeResponseDto(postId, likesRepository.countByPost(post));
+        return new LikeResponseDto(postId, likeRepository.countByPost(post));
     }
 }

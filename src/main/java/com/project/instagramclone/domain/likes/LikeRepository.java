@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface LikesRepository extends JpaRepository<Likes, Long> {
+public interface LikeRepository extends JpaRepository<Likes, Long> {
 
     //해당 Post 에 User 가 누른 좋아요 조회
     Optional<Likes> findByUserAndPost(User user, Post post);
