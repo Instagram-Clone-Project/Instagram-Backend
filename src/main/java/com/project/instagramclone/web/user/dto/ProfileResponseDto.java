@@ -1,6 +1,8 @@
 package com.project.instagramclone.web.user.dto;
 
 import com.project.instagramclone.domain.post.entity.Post;
+import com.project.instagramclone.domain.user.vo.ProfileFollowerVo;
+import com.project.instagramclone.domain.user.vo.ProfileFollowingVo;
 import com.project.instagramclone.domain.user.vo.ProfilePostVo;
 import com.project.instagramclone.domain.user.vo.ProfileUserVo;
 import io.swagger.annotations.ApiModel;
@@ -32,12 +34,21 @@ public class ProfileResponseDto {
     @ApiModelProperty(example = "게시물 정보")
     private List<ProfilePostVo> posts;
 
+    @ApiModelProperty(example = "팔로워 정보")
+    private List<ProfileFollowerVo> followers;
+
+    @ApiModelProperty(example = "팔로잉 정보")
+    private List<ProfileFollowingVo> followings;
+
     @Builder
-    private ProfileResponseDto(ProfileUserVo user, Long postCount, Long followerCount, Long followingCount, List<ProfilePostVo> posts) {
+    private ProfileResponseDto(ProfileUserVo user, Long postCount, Long followerCount, Long followingCount, List<ProfilePostVo> posts,
+                               List<ProfileFollowerVo> followers, List<ProfileFollowingVo> followings) {
         this.user = user;
         this.postCount = postCount;
         this.followerCount = followerCount;
         this.followingCount = followingCount;
         this.posts = posts;
+        this.followers = followers;
+        this.followings = followings;
     }
 }
