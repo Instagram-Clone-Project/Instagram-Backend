@@ -127,6 +127,7 @@ public class UserController {
         return new ResponseEntity<>(SuccessResponseDto.builder().message("비밀번호 변경 완료").build(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "메인 프로필")
     @GetMapping("/profile/{username}")
     public ResponseEntity<ProfileResponseDto> mainProfile(@PathVariable String username,
                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {

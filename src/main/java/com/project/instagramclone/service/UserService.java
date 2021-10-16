@@ -1,6 +1,7 @@
 package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
+import com.project.instagramclone.domain.follow.Follow;
 import com.project.instagramclone.domain.follow.FollowQueryRepository;
 import com.project.instagramclone.domain.likes.LikeRepository;
 import com.project.instagramclone.domain.photo.entity.Photo;
@@ -9,9 +10,7 @@ import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
-import com.project.instagramclone.domain.user.vo.ProfilePostImageVo;
-import com.project.instagramclone.domain.user.vo.ProfilePostVo;
-import com.project.instagramclone.domain.user.vo.ProfileUserVo;
+import com.project.instagramclone.domain.user.vo.*;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.security.JwtTokenProvider;
@@ -216,12 +215,30 @@ public class UserService {
                     .build());
         }
 
+        List<ProfileFollowerVo> followers = new ArrayList<>();
+
+        for (User follower : userRepository.findByFollower(user.getUserId())) {
+            followers.add(ProfileFollowerVo.builder()
+                    .user(follower)
+                    .build());
+        }
+
+        List<ProfileFollowingVo> followings = new ArrayList<>();
+
+        for (User following : userRepository.findByFollowing(user.getUserId())) {
+            followings.add(ProfileFollowingVo.builder()
+                    .user(following)
+                    .build());
+        }
+
         return ProfileResponseDto.builder()
                 .user(ProfileUserVo.builder().user(user).build())
                 .postCount(postCount)
                 .followerCount(followerCount)
                 .followingCount(followingCount)
                 .posts(posts)
+                .followers(followers)
+                .followings(followings)
                 .build();
     }
 }
