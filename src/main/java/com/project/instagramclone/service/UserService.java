@@ -1,7 +1,17 @@
 package com.project.instagramclone.service;
 
+import com.project.instagramclone.domain.comment.CommentQueryRepository;
+import com.project.instagramclone.domain.follow.FollowQueryRepository;
+import com.project.instagramclone.domain.likes.LikeRepository;
+import com.project.instagramclone.domain.photo.entity.Photo;
+import com.project.instagramclone.domain.photo.repository.PhotoRepository;
+import com.project.instagramclone.domain.post.entity.Post;
+import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
+import com.project.instagramclone.domain.user.vo.ProfilePostImageVo;
+import com.project.instagramclone.domain.user.vo.ProfilePostVo;
+import com.project.instagramclone.domain.user.vo.ProfileUserVo;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.security.JwtTokenProvider;
@@ -13,12 +23,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final CommentQueryRepository commentRepository;
+    private final FollowQueryRepository followRepository;
+    private final LikeRepository likeRepository;
+    private final PhotoRepository photoRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final MailService mailService;
@@ -163,5 +181,47 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         user.updatePassword(passwordEncoder.encode(recoveryRequestDto.getNewPassword()));
+    }
+
+    @Transactional
+    public ProfileResponseDto mainProfile(String username) {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        Long postCount = postRepository.countByUser(user);
+        Long followerCount = followRepository.getFollower(user.getUserId());
+        Long followingCount = followRepository.getFollowing(user.getUserId());
+
+        List<Post> postList = postRepository.findPostByUsername(user.getUserId());
+        List<ProfilePostVo> posts = new ArrayList<>();
+
+        for (Post post : postList) {
+            Long likeCount = likeRepository.countByPost(post);
+            Long commentCount = commentRepository.countByPost(post);
+
+            List<ProfilePostImageVo> images = new ArrayList<>();
+
+            for (Photo photo : post.getPhotos()) {
+                images.add(ProfilePostImageVo.builder()
+                        .photo(photo)
+                        .build());
+            }
+
+            posts.add(ProfilePostVo.builder()
+                    .post(post)
+                    .likeCount(likeCount)
+                    .commentCount(commentCount)
+                    .images(images)
+                    .build());
+        }
+
+        return ProfileResponseDto.builder()
+                .user(ProfileUserVo.builder().user(user).build())
+                .postCount(postCount)
+                .followerCount(followerCount)
+                .followingCount(followingCount)
+                .posts(posts)
+                .build();
     }
 }

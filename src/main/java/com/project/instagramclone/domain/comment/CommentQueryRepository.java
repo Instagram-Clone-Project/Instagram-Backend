@@ -1,6 +1,7 @@
 package com.project.instagramclone.domain.comment;
 
 import com.project.instagramclone.domain.comment.Comment;
+import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.web.comment.dto.CommentVo;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentVo;
 import com.project.instagramclone.web.post.dto.CommentDto;
@@ -35,4 +36,9 @@ public interface CommentQueryRepository extends JpaRepository<Comment, Long> {
      */
     @Query("select new com.project.instagramclone.web.post.dto.CommentDto(u.username, c.content) from Comment c join c.user u where c.post.postId = :postId")
     public List<CommentDto> findCommentByPostId(@Param("postId") Long postId);
+
+    /*
+    승철 추가
+     */
+    Long countByPost(Post post);
 }
