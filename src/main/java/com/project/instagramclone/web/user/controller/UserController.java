@@ -42,7 +42,7 @@ public class UserController {
 
     @ApiOperation(value = "이메일 인증번호 일치 여부 확인")
     @PostMapping("/signup/mail")
-    public ResponseEntity<SuccessResponseDto> verifyAccount(@RequestBody VerifyAccountRequestDto accountRequestDto) {
+    public ResponseEntity<SuccessResponseDto> signUpVerifyAccount(@RequestBody VerifyAccountRequestDto accountRequestDto) {
 
         mailService.verifyAccount(accountRequestDto);
 
@@ -114,7 +114,7 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 찾기 (인증번호 확인 후 사용자 정보 전송)")
     @PostMapping("/password/reset/mail")
-    public ResponseEntity<ResetResponseDto> verifyAccount(@RequestBody ResetRequestDto resetRequestDto) {
+    public ResponseEntity<ResetResponseDto> passwordResetVerifyAccount(@RequestBody ResetRequestDto resetRequestDto) {
         return new ResponseEntity<>(mailService.verifyAccount(resetRequestDto), HttpStatus.OK);
     }
 
