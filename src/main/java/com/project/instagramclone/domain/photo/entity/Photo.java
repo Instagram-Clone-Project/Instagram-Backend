@@ -15,7 +15,6 @@ public class Photo extends BaseTimeEntity {
     private Long photoId;
 
     private String fileName;
-    private String encFileName;
     private String route;
     private Long fileSize;
 
