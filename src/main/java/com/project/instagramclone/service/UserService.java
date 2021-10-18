@@ -215,30 +215,12 @@ public class UserService {
                     .build());
         }
 
-        List<ProfileFollowerVo> followers = new ArrayList<>();
-
-        for (User follower : userRepository.findByFollower(user.getUserId())) {
-            followers.add(ProfileFollowerVo.builder()
-                    .user(follower)
-                    .build());
-        }
-
-        List<ProfileFollowingVo> followings = new ArrayList<>();
-
-        for (User following : userRepository.findByFollowing(user.getUserId())) {
-            followings.add(ProfileFollowingVo.builder()
-                    .user(following)
-                    .build());
-        }
-
         return ProfileResponseDto.builder()
                 .user(ProfileUserVo.builder().user(user).build())
                 .postCount(postCount)
                 .followerCount(followerCount)
                 .followingCount(followingCount)
                 .posts(posts)
-                .followers(followers)
-                .followings(followings)
                 .build();
     }
 }

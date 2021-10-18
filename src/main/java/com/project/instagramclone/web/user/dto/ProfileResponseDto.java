@@ -34,21 +34,12 @@ public class ProfileResponseDto {
     @ApiModelProperty(example = "게시물 정보")
     private List<ProfilePostVo> posts;
 
-    @ApiModelProperty(example = "팔로워 정보")
-    private List<ProfileFollowerVo> followers;
-
-    @ApiModelProperty(example = "팔로잉 정보")
-    private List<ProfileFollowingVo> followings;
-
     @Builder
-    private ProfileResponseDto(ProfileUserVo user, Long postCount, Long followerCount, Long followingCount, List<ProfilePostVo> posts,
-                               List<ProfileFollowerVo> followers, List<ProfileFollowingVo> followings) {
+    private ProfileResponseDto(ProfileUserVo user, Long postCount, Long followerCount, Long followingCount, List<ProfilePostVo> posts) {
         this.user = user;
         this.postCount = postCount;
         this.followerCount = followerCount;
         this.followingCount = followingCount;
         this.posts = posts;
-        this.followers = followers;
-        this.followings = followings;
     }
 }
