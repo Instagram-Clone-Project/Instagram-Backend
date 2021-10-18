@@ -223,4 +223,31 @@ public class UserService {
                 .posts(posts)
                 .build();
     }
+
+    @Transactional
+    public FollowingsResponseDto getFollowings(String username, User user) {
+
+        User followUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        List<User> followingList = userRepository.findByFollowing(followUser.getUserId());
+        List<ProfileFollowingVo> followings = new ArrayList<>();
+
+        for (User following : followingList) {
+            boolean isFollow = false;
+
+            if (followRepository.findRelation(user.getUserId(), following.getUserId()).isPresent()) {
+                isFollow = true;
+            }
+
+            followings.add(ProfileFollowingVo.builder()
+                    .user(following)
+                    .isFollow(isFollow)
+                    .build());
+        }
+
+        return FollowingsResponseDto.builder()
+                .followings(followings)
+                .build();
+    }
 }
