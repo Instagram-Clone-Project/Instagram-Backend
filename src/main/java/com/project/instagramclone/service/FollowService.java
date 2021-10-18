@@ -136,6 +136,7 @@ public class FollowService {
             }
             followingListDtos.add(tmp);
         }
+
         return followingListDtos;
     }
 }
