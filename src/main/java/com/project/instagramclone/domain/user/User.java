@@ -59,6 +59,7 @@ public class User extends BaseTimeEntity {
     @JsonIgnore
     private boolean enabled;
 
+
     @OneToMany(mappedBy = "user")
     List<Post> posts = new ArrayList<>();
 

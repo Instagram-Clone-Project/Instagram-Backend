@@ -8,11 +8,13 @@ import com.project.instagramclone.web.follow.dto.FollowingListDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @Api(tags = {"팔로우"})
@@ -34,17 +36,21 @@ public class FollowController {
         return followService.getFollowInfo(userId);
     }
 
-    @DeleteMapping("/api/follow/{toUserId}")
+    @ApiOperation(value = "언팔로우", notes = "{toUserId}에 해당하는 유저를 언팔로우 합니다.")
+    @DeleteMapping("/api/unfollow/{toUserId}")
     public void delete(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("toUserId") Long toUserId){
         followService.delete(userDetails.getUser(), toUserId);
     }
 
-    @GetMapping("/api/follower/list/{user_id}")
+    @ApiOperation(value = "팔로워목록", notes = "{userId}에 해당하는 유저의 팔로워목록을 보여줍니다.")
+    @GetMapping("/api/follower/{user_id}")
     public List<FollowerListDto> getFollowerList(@PathVariable("user_id") Long userId ,@AuthenticationPrincipal PrincipalDetails userDetails){
+
         return followService.getFollowerList(userId,userDetails.getUser());
     }
 
-    @GetMapping("/api/following/list/{user_id}")
+    @ApiOperation(value = "팔로잉목록", notes = "{userId}에 해당하는 유저의 팔로잉목록을 보여줍니다.")
+    @GetMapping("/api/following/{user_id}")
     public List<FollowingListDto> getFollowingList(@PathVariable("user_id")Long userId,@AuthenticationPrincipal PrincipalDetails userDetails){
         return followService.getFollowingList(userId,userDetails.getUser());
     }

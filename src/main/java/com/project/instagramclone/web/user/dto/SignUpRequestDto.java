@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class SignUpRequestDto {
 
     //@ApiModelProperty(example = "전화번호")

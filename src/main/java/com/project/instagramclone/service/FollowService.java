@@ -80,6 +80,11 @@ public class FollowService {
             tmp.setProfileImageUrl(user.getProfileImageUrl());
             Optional<Follow> relation = followQueryRepository.findRelation(loginUser.getUserId(), f.getFollowing().getUserId());
 
+
+            if(userId == loginUser.getUserId()){
+                tmp.setLoginUser(true);
+            }
+
             if(relation.isPresent()){
                 tmp.setFollowRelation(true);
             }
@@ -96,12 +101,13 @@ public class FollowService {
     public List<FollowingListDto> getFollowingList(Long userId, User loginUser){
         List<Follow> followingList = followQueryRepository.findFollowingList(userId);
         List<FollowingListDto> followingListDtos = new ArrayList<>();
-        log.info("실행");
 
         // 지금 현재 테이블에는 userId를 팔로잉 하는 테이블 리스트의 정보가 나온다.
         // 그렇다면 Follow (Following = userId Follower = 다른사람)
 
         for(Follow f : followingList){
+
+
             if(f.getFollwer().getUserId() == loginUser.getUserId()) continue; // 자기 자신 스킵
 
             FollowingListDto tmp = new FollowingListDto();
@@ -113,6 +119,14 @@ public class FollowService {
             tmp.setProfileImageUrl(user.getProfileImageUrl());
 
             Optional<Follow> relation = followQueryRepository.findRelation(loginUser.getUserId(), f.getFollwer().getUserId());
+
+
+
+            if(userId == loginUser.getUserId()){
+                tmp.setLoginUser(true);
+            }
+
+
 
             if(relation.isPresent()){
                 tmp.setFollowRelation(true);
