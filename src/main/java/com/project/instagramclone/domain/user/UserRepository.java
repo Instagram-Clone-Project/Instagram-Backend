@@ -16,13 +16,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "from User u " +
             "join Follow f " +
             "on f.following.userId = u.userId " +
-            "where f.follwer.userId = :userId")
+            "where f.follower.userId = :userId")
     List<User> findByFollower(@Param("userId") Long userId);
 
     @Query("select u " +
             "from User u " +
             "join Follow f " +
-            "on f.follwer.userId = u.userId " +
+            "on f.follower.userId = u.userId " +
             "where f.following.userId = :userId")
     List<User> findByFollowing(@Param("userId") Long userId);
 

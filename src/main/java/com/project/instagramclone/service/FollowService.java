@@ -73,7 +73,7 @@ public class FollowService {
             if(f.getFollowing().getUserId() == loginUser.getUserId()) continue; // 자기 자신 스킵
 
             FollowerListDto tmp = new FollowerListDto();
-            log.info(f.getFollowing().getUserId()+" "+f.getFollwer().getUserId());
+            log.info(f.getFollowing().getUserId()+" "+f.getFollower().getUserId());
             User user = userRepository.findById(f.getFollowing().getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 유저가 없습니다"));
 
             tmp.setUsername(user.getUsername());
@@ -108,17 +108,17 @@ public class FollowService {
         for(Follow f : followingList){
 
 
-            if(f.getFollwer().getUserId() == loginUser.getUserId()) continue; // 자기 자신 스킵
+            if(f.getFollower().getUserId() == loginUser.getUserId()) continue; // 자기 자신 스킵
 
             FollowingListDto tmp = new FollowingListDto();
 
-            User user = userRepository.findById(f.getFollwer().getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 유저가 없습니다"));
-            log.info(loginUser.getUserId()+" "+f.getFollowing().getUserId() +" "+f.getFollwer().getUserId());
+            User user = userRepository.findById(f.getFollower().getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 유저가 없습니다"));
+            log.info(loginUser.getUserId()+" "+f.getFollowing().getUserId() +" "+f.getFollower().getUserId());
 
             tmp.setUsername(user.getUsername());
             tmp.setProfileImageUrl(user.getProfileImageUrl());
 
-            Optional<Follow> relation = followQueryRepository.findRelation(loginUser.getUserId(), f.getFollwer().getUserId());
+            Optional<Follow> relation = followQueryRepository.findRelation(loginUser.getUserId(), f.getFollower().getUserId());
 
 
 
