@@ -234,15 +234,15 @@ public class UserService {
         List<ProfileFollowingVo> followings = new ArrayList<>();
 
         for (User following : followingList) {
-            boolean isFollow = false;
+            boolean followRelation = false;
 
             if (followRepository.findRelation(loginUser.getUserId(), following.getUserId()).isPresent()) {
-                isFollow = true;
+                followRelation = true;
             }
 
             followings.add(ProfileFollowingVo.builder()
                     .user(following)
-                    .isFollow(isFollow)
+                    .followRelation(followRelation)
                     .build());
         }
 
@@ -261,15 +261,15 @@ public class UserService {
         List<ProfileFollowerVo> followers = new ArrayList<>();
 
         for (User follower : followerList) {
-            boolean isFollow = false;
+            boolean followRelation = false;
 
             if (followRepository.findRelation(loginUser.getUserId(), follower.getUserId()).isPresent()) {
-                isFollow = true;
+                followRelation = true;
             }
 
             followers.add(ProfileFollowerVo.builder()
                     .user(follower)
-                    .isFollow(isFollow)
+                    .followRelation(followRelation)
                     .build());
         }
 
