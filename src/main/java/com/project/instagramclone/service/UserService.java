@@ -225,18 +225,18 @@ public class UserService {
     }
 
     @Transactional
-    public FollowingsResponseDto getFollowings(String username, User user) {
+    public FollowingsResponseDto getFollowings(String username, User loginUser) {
 
-        User followUser = userRepository.findByUsername(username)
+        User searchUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        List<User> followingList = userRepository.findByFollowing(followUser.getUserId());
+        List<User> followingList = userRepository.findByFollowing(searchUser.getUserId());
         List<ProfileFollowingVo> followings = new ArrayList<>();
 
         for (User following : followingList) {
             boolean isFollow = false;
 
-            if (followRepository.findRelation(user.getUserId(), following.getUserId()).isPresent()) {
+            if (followRepository.findRelation(loginUser.getUserId(), following.getUserId()).isPresent()) {
                 isFollow = true;
             }
 
@@ -248,6 +248,33 @@ public class UserService {
 
         return FollowingsResponseDto.builder()
                 .followings(followings)
+                .build();
+    }
+
+    @Transactional
+    public FollowersResponseDto getFollowers(String username, User loginUser) {
+
+        User searchUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        List<User> followerList = userRepository.findByFollower(searchUser.getUserId());
+        List<ProfileFollowerVo> followers = new ArrayList<>();
+
+        for (User follower : followerList) {
+            boolean isFollow = false;
+
+            if (followRepository.findRelation(loginUser.getUserId(), follower.getUserId()).isPresent()) {
+                isFollow = true;
+            }
+
+            followers.add(ProfileFollowerVo.builder()
+                    .user(follower)
+                    .isFollow(isFollow)
+                    .build());
+        }
+
+        return FollowersResponseDto.builder()
+                .followers(followers)
                 .build();
     }
 }
