@@ -134,10 +134,17 @@ public class UserController {
         return new ResponseEntity<>(userService.mainProfile(username), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "프로필 팔로워 목록")
+    @ApiOperation(value = "프로필 팔로잉 목록")
     @GetMapping("/profile/{username}/followings")
     public ResponseEntity<FollowingsResponseDto> getFollowings(@PathVariable String username,
                                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         return new ResponseEntity<>(userService.getFollowings(username, principalDetails.getUser()), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "프로필 팔로워 목록")
+    @GetMapping("/profile/{username}/followers")
+    public ResponseEntity<FollowersResponseDto> getFollowers(@PathVariable String username,
+                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return new ResponseEntity<>(userService.getFollowers(username, principalDetails.getUser()), HttpStatus.OK);
     }
 }

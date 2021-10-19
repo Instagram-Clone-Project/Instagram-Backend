@@ -20,10 +20,14 @@ public class ProfileFollowerVo {
     @ApiModelProperty(example = "팔로워 프로필 사진")
     private String profileImageUrl;
 
+    @ApiModelProperty(notes = "팔로우 여부 (팔로우O: true, 팔로우X: false)")
+    private boolean followRelation;
+
     @Builder
-    private ProfileFollowerVo(User user) {
+    private ProfileFollowerVo(User user, boolean followRelation) {
         this.username = user.getUsername();
         this.name = user.getName();
         this.profileImageUrl = user.getProfileImageUrl();
+        this.followRelation = followRelation;
     }
 }
