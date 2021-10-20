@@ -14,6 +14,7 @@ import com.project.instagramclone.domain.user.vo.*;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.security.JwtTokenProvider;
+import com.project.instagramclone.web.home.dto.homeResponseDto;
 import com.project.instagramclone.web.user.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -276,5 +277,12 @@ public class UserService {
         return FollowersResponseDto.builder()
                 .followers(followers)
                 .build();
+    }
+
+    @Transactional
+    public homeResponseDto home(User user) {
+
+
+        return null;
     }
 }
