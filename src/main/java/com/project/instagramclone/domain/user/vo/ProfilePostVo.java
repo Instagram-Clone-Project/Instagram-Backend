@@ -27,13 +27,13 @@ public class ProfilePostVo {
     private Long commentCount;
 
     @ApiModelProperty(example = "게시물 사진")
-    private List<ProfilePostImageVo> images;
+    private List<PostImageVo> images;
 
     @ApiModelProperty(example = "게시물 작성 날짜")
     private LocalDateTime createdDate;
 
     @Builder
-    private ProfilePostVo(Post post, Long likeCount, Long commentCount, List<ProfilePostImageVo> images) {
+    private ProfilePostVo(Post post, Long likeCount, Long commentCount, List<PostImageVo> images) {
         this.postId = post.getPostId();
         this.content = post.getContent();
         this.likeCount = likeCount;

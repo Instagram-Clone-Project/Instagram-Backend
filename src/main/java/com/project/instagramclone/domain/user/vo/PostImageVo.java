@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProfilePostImageVo {
+public class PostImageVo {
 
-    @ApiModelProperty(example = "게시물 사진 URL")
+    @ApiModelProperty(value = "게시물 사진 URL")
     private String postImageUrl;
 
     @Builder
-    private ProfilePostImageVo(Photo photo) {
+    private PostImageVo(Photo photo) {
         this.postImageUrl = photo.getRoute();
     }
 }
