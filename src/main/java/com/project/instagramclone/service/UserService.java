@@ -1,7 +1,6 @@
 package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
-import com.project.instagramclone.domain.follow.Follow;
 import com.project.instagramclone.domain.follow.FollowQueryRepository;
 import com.project.instagramclone.domain.likes.LikeRepository;
 import com.project.instagramclone.domain.photo.entity.Photo;
@@ -14,7 +13,7 @@ import com.project.instagramclone.domain.user.vo.*;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.security.JwtTokenProvider;
-import com.project.instagramclone.web.home.dto.homeResponseDto;
+import com.project.instagramclone.web.home.dto.HomeResponseDto;
 import com.project.instagramclone.web.user.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -200,10 +199,10 @@ public class UserService {
             Long likeCount = likeRepository.countByPost(post);
             Long commentCount = commentRepository.countByPost(post);
 
-            List<ProfilePostImageVo> images = new ArrayList<>();
+            List<PostImageVo> images = new ArrayList<>();
 
             for (Photo photo : post.getPhotos()) {
-                images.add(ProfilePostImageVo.builder()
+                images.add(PostImageVo.builder()
                         .photo(photo)
                         .build());
             }
@@ -277,12 +276,5 @@ public class UserService {
         return FollowersResponseDto.builder()
                 .followers(followers)
                 .build();
-    }
-
-    @Transactional
-    public homeResponseDto home(User user) {
-
-
-        return null;
     }
 }
