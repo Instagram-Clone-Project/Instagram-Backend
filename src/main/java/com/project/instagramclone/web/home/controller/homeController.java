@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class homeController {
 
     private final UserService userService;
-
-    @ApiOperation("인스타그램 홈페이지")
-    @GetMapping("/")
-    public homeResponseDto home(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return new ResponseEntity<>(userService.home(principalDetails.getUser()), HttpStatus.OK);
-    }
+//
+//    @ApiOperation("인스타그램 홈페이지")
+//    @GetMapping("/")
+//    public homeResponseDto home(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//        return new ResponseEntity<>(userService.home(principalDetails.getUser()), HttpStatus.OK);
+//    }
 }

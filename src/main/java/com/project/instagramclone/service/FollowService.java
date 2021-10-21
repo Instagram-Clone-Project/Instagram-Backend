@@ -106,8 +106,6 @@ public class FollowService {
         // 그렇다면 Follow (Following = userId Follower = 다른사람)
 
         for(Follow f : followingList){
-
-
             if(f.getFollower().getUserId() == loginUser.getUserId()) continue; // 자기 자신 스킵
 
             FollowingListDto tmp = new FollowingListDto();

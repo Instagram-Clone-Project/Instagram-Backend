@@ -26,7 +26,7 @@ public interface CommentQueryRepository extends JpaRepository<Comment, Long> {
 
 
 
-    @Query("select distinct c from Comment c join fetch c.reply where c.post.postId in :postId")
+    @Query("select distinct c from Comment c left outer join fetch c.reply where c.post.postId in :postId")
     public List<Comment> getComments(@Param("postId") Long postId);
 
 
