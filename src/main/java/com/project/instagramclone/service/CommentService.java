@@ -7,12 +7,14 @@ import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentRepository;
 import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.web.comment.dto.CommentGetDto;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
 import com.project.instagramclone.web.comment.dto.CommentVo;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentVo;
 import com.project.instagramclone.web.post.dto.CommentDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -61,21 +64,27 @@ public class CommentService {
 
 
     @Transactional
-    public List<CommentVo> getComments(Long postId){
-        List<CommentVo> vo = new ArrayList<>();
-        List<Comment> test = commentQueryRepository.getComments(postId);
-        List<NestedCommentVo> nestedCommentVos = new ArrayList<>();
+    public CommentGetDto getComments(Long postId){
+        CommentGetDto commentGetDto = new CommentGetDto();
 
-        for(Comment c : test){
-            System.out.println(c.getId()+" "+c.getContent());
+        List<Comment> comment = commentQueryRepository.getComments(postId);
+        List<NestedCommentVo> nestedCommentVos;
+
+        log.info("comment size" + comment.size());
+        log.info(comment.get(0).getContent());
+
+        for(Comment c : comment){
+            CommentVo vo;
             nestedCommentVos = new ArrayList<>();
 
             for(NestedComment nestedComment : c.getReply()){
                 nestedCommentVos.add(new NestedCommentVo(nestedComment.getContent(), nestedComment.getCreatedDate(), nestedComment.getModifiedDate()));
             }
-            vo.add(new CommentVo(c,nestedCommentVos));
+            vo = new CommentVo(c,nestedCommentVos);
+            commentGetDto.getCommentVos().add(vo);
         }
-        return vo;
+
+        return commentGetDto;
     }
 
     /**

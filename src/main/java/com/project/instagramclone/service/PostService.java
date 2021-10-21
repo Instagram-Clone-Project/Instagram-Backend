@@ -5,6 +5,7 @@ import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.photo.repository.PhotoRepository;
 import com.project.instagramclone.domain.post.repository.PostRepository;
+import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.web.post.dto.CommentDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
 import lombok.RequiredArgsConstructor;
@@ -42,15 +43,16 @@ public class PostService {
 //        findPost.setPhoto(photo);
 //        findPost.setModifiedDate(LocalDateTime.now());
     }
-
+    @Transactional
     public Post findOne(Long postId) {
         return postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
     }
-
+    @Transactional
     public List<Post> findAllPost(Long userId) {
         return postRepository.findPostByUsername(userId);
     }
 
+    @Transactional
     public List<PostShowDto> getPostList(Long userId) {
         List<PostShowDto> postShowDtoList = new ArrayList<>();
 
@@ -73,4 +75,18 @@ public class PostService {
         return postShowDtoList;
     }
 
+    /*
+          수혁
+     */
+
+    @Transactional
+    public List<Post> queryTest(User user){
+        System.out.println(user.getUserId());
+
+        List<Post> postHomePage = postRepository.findPostHomePage(user.getUserId());
+
+
+
+        return postHomePage;
+    }
 }

@@ -1,6 +1,8 @@
 package com.project.instagramclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.project.instagramclone.domain.BaseTimeEntity;
 import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.likes.Likes;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)    // 양방향 루프 방지
 public class Post extends BaseTimeEntity {
 
     @Id @GeneratedValue
