@@ -2,11 +2,14 @@ package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
 import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
+import com.project.instagramclone.domain.photo.entity.Photo;
+import com.project.instagramclone.domain.photo.repository.PhotoRepository;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.domain.user.vo.HomePostVo;
+import com.project.instagramclone.domain.user.vo.PostImageVo;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.web.home.dto.HomeResponseDto;
@@ -23,6 +26,7 @@ public class HomeService {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final PhotoRepository photoRepository;
     private final CommentQueryRepository commentRepository;
     private final NestedCommentRepository replyRepository;
 
@@ -36,9 +40,19 @@ public class HomeService {
             User user = userRepository.findById(post.getUser().getUserId())
                     .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
+            List<Photo> imageList = photoRepository.findPhotoListByPostId(post.getPostId());
+            List<PostImageVo> images = new ArrayList<>();
+
+            for (Photo image : imageList) {
+                images.add(PostImageVo.builder()
+                        .image(image)
+                        .build());
+            }
+
             posts.add(HomePostVo.builder()
                     .user(user)
                     .post(post)
+                    .images(images)
                     .build());
         }
 
