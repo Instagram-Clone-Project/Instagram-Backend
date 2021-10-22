@@ -1,6 +1,7 @@
 package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
+import com.project.instagramclone.domain.likes.LikeRepository;
 import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
 import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.photo.repository.PhotoRepository;
@@ -29,6 +30,7 @@ public class HomeService {
     private final PhotoRepository photoRepository;
     private final CommentQueryRepository commentRepository;
     private final NestedCommentRepository replyRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public HomeResponseDto home(User loginUser) {
@@ -49,10 +51,13 @@ public class HomeService {
                         .build());
             }
 
+            Long postLikeCount = likeRepository.countByPost(post);
+
             posts.add(HomePostVo.builder()
                     .user(user)
                     .post(post)
                     .images(images)
+                    .likeCount(postLikeCount)
                     .build());
         }
 
