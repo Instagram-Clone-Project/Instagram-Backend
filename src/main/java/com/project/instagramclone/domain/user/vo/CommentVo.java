@@ -1,5 +1,6 @@
 package com.project.instagramclone.domain.user.vo;
 
+import com.project.instagramclone.domain.comment.Comment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -38,15 +39,15 @@ public class CommentVo {
     private LocalDateTime createdDate;
 
     @Builder
-    private CommentVo(Long commentId, String username, String profileImageUrl, String content, Long likeCount,
-                      List<ReplyVo> replies, Long replyCount, LocalDateTime createdDate) {
-        this.commentId = commentId;
-        this.username = username;
-        this.profileImageUrl = profileImageUrl;
-        this.content = content;
+    private CommentVo(Comment comment, Long likeCount,
+                      List<ReplyVo> replies, Long replyCount) {
+        this.commentId = comment.getId();
+        this.content = comment.getContent();
+        this.createdDate = comment.getCreatedDate();
+        this.username = comment.getUser().getUsername();
+        this.profileImageUrl = comment.getUser().getProfileImageUrl();
         this.likeCount = likeCount;
         this.replies = replies;
         this.replyCount = replyCount;
-        this.createdDate = createdDate;
     }
 }
