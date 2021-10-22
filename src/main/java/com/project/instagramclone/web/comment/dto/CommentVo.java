@@ -1,6 +1,7 @@
 package com.project.instagramclone.web.comment.dto;
 
 import com.project.instagramclone.domain.comment.Comment;
+import com.project.instagramclone.domain.user.vo.CommentUserVo;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentVo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 public class CommentVo {
 
-    private String content;
+    private CommentUserVo commentUserVo;
 
+    private String content;
     private List<NestedCommentVo> reply;
 
     private LocalDateTime createDate;

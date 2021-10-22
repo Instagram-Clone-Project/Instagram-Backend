@@ -31,10 +31,9 @@ public class NestCommentService {
         Comment parent = commentRepository.findById(parentCommentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
 
         NestedComment children = nestedCommentSaveDto.toEntity();
-
+        children.setUser(user);
         parent.setRelation(children);
         nestedCommentRepository.save(children);
-
     }
 
     @Transactional

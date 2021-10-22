@@ -63,29 +63,27 @@ public class CommentService {
     }
 
 
-    @Transactional
-    public CommentGetDto getComments(Long postId){
-        CommentGetDto commentGetDto = new CommentGetDto();
-
-        List<Comment> comment = commentQueryRepository.getComments(postId);
-        List<NestedCommentVo> nestedCommentVos;
-
-        log.info("comment size" + comment.size());
-        log.info(comment.get(0).getContent());
-
-        for(Comment c : comment){
-            CommentVo vo;
-            nestedCommentVos = new ArrayList<>();
-
-            for(NestedComment nestedComment : c.getReply()){
-                nestedCommentVos.add(new NestedCommentVo(nestedComment.getContent(), nestedComment.getCreatedDate(), nestedComment.getModifiedDate()));
-            }
-            vo = new CommentVo(c,nestedCommentVos);
-            commentGetDto.getCommentVos().add(vo);
-        }
-
-        return commentGetDto;
-    }
+//    @Transactional
+//    public CommentGetDto getComments(Long postId){
+//        CommentGetDto commentGetDto = new CommentGetDto();
+//
+//        List<Comment> comment = commentQueryRepository.getComments(postId); // 댓글
+//        List<NestedCommentVo> nestedCommentVos;
+//
+//
+//        for(Comment c : comment){
+//            CommentVo vo;
+//            nestedCommentVos = new ArrayList<>();
+//
+//            for(NestedComment nestedComment : c.getReply()){
+//                nestedCommentVos.add(new NestedCommentVo(nestedComment.getContent(), nestedComment.getCreatedDate(), nestedComment.getModifiedDate()));
+//            }
+//            vo = new CommentVo(c,nestedCommentVos);
+//            commentGetDto.getCommentVos().add(vo);
+//        }
+//
+//        return commentGetDto;
+//    }
 
     /**
      * 박준순이 만든거임
