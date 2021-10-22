@@ -44,15 +44,15 @@ public class HomePostVo {
 
     @Builder
     private HomePostVo(User user, Post post, List<PostImageVo> images, Long likeCount,
-                       Long commentCount, List<CommentVo> comments, LocalDateTime createdDate) {
+                       Long commentCount, List<CommentVo> comments) {
         this.username = user.getUsername();
         this.profileImageUrl = user.getProfileImageUrl();
         this.postId = post.getPostId();
-        this.images = images;
         this.content = post.getContent();
+        this.createdDate = post.getCreatedDate();
+        this.images = images;
         this.likeCount = likeCount;
         this.commentCount = commentCount;
         this.comments = comments;
-        this.createdDate = createdDate;
     }
 }

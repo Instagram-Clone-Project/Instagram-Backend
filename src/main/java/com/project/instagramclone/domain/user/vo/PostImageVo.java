@@ -15,7 +15,7 @@ public class PostImageVo {
     private String postImageUrl;
 
     @Builder
-    private PostImageVo(Photo photo) {
-        this.postImageUrl = photo.getRoute();
+    private PostImageVo(Photo image) {
+        this.postImageUrl = image.getRoute();
     }
 }

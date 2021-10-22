@@ -52,9 +52,15 @@ public class CommentController {
     }
 
 
-    @GetMapping("/api/comment/{post_id}")
-    @ApiOperation(value = "댓글 조회", notes = "댓글 조회입니다. {post_id}에는 댓글을 조회할 게시글 pk값입니다.")
-    public ResponseEntity<CommentGetDto> getComments(@PathVariable("post_id") Long postId){
-        return new ResponseEntity<>(commentService.getComments(postId), HttpStatus.OK);
+//    @GetMapping("/api/comment/{post_id}")
+//    @ApiOperation(value = "댓글 조회", notes = "댓글 조회입니다. {post_id}에는 댓글을 조회할 게시글 pk값입니다.")
+//    public ResponseEntity<CommentGetDto> getComments(@PathVariable("post_id") Long postId){
+//        return new ResponseEntity<>(commentService.getComments(postId), HttpStatus.OK);
+//    }
+
+
+    @GetMapping("/api/comment/cnt/{post_id}")
+    public Long test(@PathVariable("post_id") Long postId){
+        return commentService.getCommentCount(postId);
     }
 }

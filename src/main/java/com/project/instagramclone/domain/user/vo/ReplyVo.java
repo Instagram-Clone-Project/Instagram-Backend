@@ -1,5 +1,6 @@
 package com.project.instagramclone.domain.user.vo;
 
+import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,13 +32,12 @@ public class ReplyVo {
     private LocalDateTime createdDate;
 
     @Builder
-    private ReplyVo(Long replyId, String username, String profileImageUrl, String content,
-                    Long likeCount, LocalDateTime createdDate) {
-        this.replyId = replyId;
-        this.username = username;
-        this.profileImageUrl = profileImageUrl;
-        this.content = content;
+    private ReplyVo(NestedComment reply, Long likeCount) {
+        this.replyId = reply.getId();
+        this.username = reply.getUser().getUsername();
+        this.profileImageUrl = reply.getUser().getProfileImageUrl();
+        this.content = reply.getContent();
+        this.createdDate = reply.getCreatedDate();
         this.likeCount = likeCount;
-        this.createdDate = createdDate;
     }
 }

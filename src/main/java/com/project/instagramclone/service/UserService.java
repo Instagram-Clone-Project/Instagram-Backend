@@ -203,7 +203,7 @@ public class UserService {
 
             for (Photo photo : post.getPhotos()) {
                 images.add(PostImageVo.builder()
-                        .photo(photo)
+                        .image(photo)
                         .build());
             }
 

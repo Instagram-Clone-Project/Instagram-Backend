@@ -62,30 +62,20 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-
-    @Transactional
-    public CommentGetDto getComments(Long postId){
-        CommentGetDto commentGetDto = new CommentGetDto();
-
-        List<Comment> comment = commentQueryRepository.getComments(postId);
-        List<NestedCommentVo> nestedCommentVos;
-
-        log.info("comment size" + comment.size());
-        log.info(comment.get(0).getContent());
+    public Long getCommentCount(Long postId){
+        Long cnt = 0L;
+        List<Comment> comment = commentQueryRepository.getComments(postId); // 댓글
 
         for(Comment c : comment){
-            CommentVo vo;
-            nestedCommentVos = new ArrayList<>();
-
+            cnt++;
             for(NestedComment nestedComment : c.getReply()){
-                nestedCommentVos.add(new NestedCommentVo(nestedComment.getContent(), nestedComment.getCreatedDate(), nestedComment.getModifiedDate()));
-            }
-            vo = new CommentVo(c,nestedCommentVos);
-            commentGetDto.getCommentVos().add(vo);
+                cnt++;
+              }
         }
 
-        return commentGetDto;
+        return cnt;
     }
+
 
     /**
      * 박준순이 만든거임

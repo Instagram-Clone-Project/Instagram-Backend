@@ -2,6 +2,7 @@ package com.project.instagramclone.domain.nestedcomment;
 
 import com.project.instagramclone.domain.BaseTimeEntity;
 import com.project.instagramclone.domain.comment.Comment;
+import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +27,17 @@ public class NestedComment extends BaseTimeEntity {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public void setComment(Comment comment){
         this.comment = comment;
+    }
+
+    public void setUser(User user){
+        this.user = user;
     }
 
     public void update(NestedCommentUpdateDto updateDto){

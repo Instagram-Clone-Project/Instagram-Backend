@@ -14,11 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostByUsername(@Param("userId") Long userId);
 
     /*
-    승철 추가
-     */
-    Long countByUser(User user);
-
-    /*
         수혁 추가
      */
 
@@ -29,18 +24,21 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 //            "on f.following.userId= p.user.userId " +
 //            "where f.following.userId =: userId")
 
-    @Query("select distinct p " +
-            "from Post p join fetch p.user join Follow f on p.user.userId = f.following.userId " +
-            "where f.following.userId =:userId and f.following.userId = p.user.userId " +
-            "order by p.createdDate DESC")
+//    @Query("select distinct p " +
+//            "from Post p join fetch p.user join Follow f on p.user.userId = f.following.userId " +
+//            "where f.following.userId =:userId and f.following.userId = p.user.userId " +
+//            "order by p.createdDate DESC")
+
     /*
-    승철 수정
-    @Query("select u " +
-            "from User u " +
-            "join Follow f " +
-            "on f.follower.userId = u.userId " +
-            "where f.following.userId = :userId")
+    승철 추가
      */
+    Long countByUser(User user);
+
+    @Query("select p " +
+            "from Post p " +
+            "join Follow f on p.user.userId = f.follower.userId " +
+            "where f.following.userId = :userId " +
+            "order by p.createdDate desc ")
     List<Post> findPostHomePage(@Param("userId") Long userId);
 
 
