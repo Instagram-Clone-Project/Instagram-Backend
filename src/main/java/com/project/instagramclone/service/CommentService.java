@@ -7,6 +7,7 @@ import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentRepository;
 import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.domain.user.vo.CommentUserVo;
 import com.project.instagramclone.web.comment.dto.CommentGetDto;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
@@ -63,27 +64,51 @@ public class CommentService {
     }
 
 
-//    @Transactional
-//    public CommentGetDto getComments(Long postId){
-//        CommentGetDto commentGetDto = new CommentGetDto();
-//
-//        List<Comment> comment = commentQueryRepository.getComments(postId); // 댓글
-//        List<NestedCommentVo> nestedCommentVos;
-//
-//
-//        for(Comment c : comment){
-//            CommentVo vo;
-//            nestedCommentVos = new ArrayList<>();
-//
-//            for(NestedComment nestedComment : c.getReply()){
-//                nestedCommentVos.add(new NestedCommentVo(nestedComment.getContent(), nestedComment.getCreatedDate(), nestedComment.getModifiedDate()));
-//            }
-//            vo = new CommentVo(c,nestedCommentVos);
-//            commentGetDto.getCommentVos().add(vo);
-//        }
-//
-//        return commentGetDto;
-//    }
+    @Transactional
+    public CommentGetDto getComments(Long postId){
+        CommentGetDto commentGetDto = new CommentGetDto();
+
+        List<Comment> comment = commentQueryRepository.getComments(postId); // 댓글
+        List<NestedCommentVo> nestedCommentVos;
+
+
+        for(Comment c : comment){
+            CommentUserVo parentVo = new CommentUserVo();   // 댓글 작성자의 정보
+            parentVo.setUsername(c.getUser().getUsername());
+            parentVo.setProfileImageUrl(c.getUser().getProfileImageUrl());
+
+            CommentVo vo;
+            nestedCommentVos = new ArrayList<>();
+
+            for(NestedComment nestedComment : c.getReply()){
+                CommentUserVo childVo = new CommentUserVo();    // 대댓글 작성자의 정보
+                childVo.setUsername(nestedComment.getUser().getUsername());
+                childVo.setProfileImageUrl(nestedComment.getUser().getProfileImageUrl());
+
+                nestedCommentVos.add(new NestedCommentVo(childVo,nestedComment.getContent(), nestedComment.getCreatedDate(), nestedComment.getModifiedDate()));
+            }
+            vo = new CommentVo(parentVo,c,nestedCommentVos);
+            commentGetDto.getCommentVos().add(vo);
+        }
+
+        return commentGetDto;
+    }
+
+
+    public Long getCommentCount(Long postId){
+        Long cnt = 0L;
+        List<Comment> comment = commentQueryRepository.getComments(postId); // 댓글
+
+        for(Comment c : comment){
+            cnt++;
+            for(NestedComment nestedComment : c.getReply()){
+                cnt++;
+              }
+        }
+
+        return cnt;
+    }
+
 
     /**
      * 박준순이 만든거임

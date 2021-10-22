@@ -23,7 +23,8 @@ public class CommentVo {
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
 
-    public CommentVo(Comment comment, List<NestedCommentVo> vo){
+    public CommentVo(CommentUserVo commentUserVo,Comment comment, List<NestedCommentVo> vo){
+        this.commentUserVo = commentUserVo;
         this.content = comment.getContent();
         this.reply = vo;
         this.createDate = comment.getCreatedDate();
