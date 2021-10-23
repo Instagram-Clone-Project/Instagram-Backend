@@ -3,6 +3,7 @@ package com.project.instagramclone.service;
 import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
 import com.project.instagramclone.domain.likes.LikeRepository;
+import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
 import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.photo.repository.PhotoRepository;
@@ -10,8 +11,10 @@ import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
+import com.project.instagramclone.domain.user.vo.CommentVo;
 import com.project.instagramclone.domain.user.vo.HomePostVo;
 import com.project.instagramclone.domain.user.vo.PostImageVo;
+import com.project.instagramclone.domain.user.vo.ReplyVo;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.web.home.dto.HomeResponseDto;
@@ -61,17 +64,59 @@ public class HomeService {
                 postCommentCount += replyRepository.countByComment(comment);
             }
 
+            List<CommentVo> comments = commentList(post);
+
             posts.add(HomePostVo.builder()
                     .user(user)
                     .post(post)
                     .images(images)
                     .likeCount(postLikeCount)
                     .commentCount(postCommentCount)
+                    .comments(comments)
                     .build());
         }
 
         return HomeResponseDto.builder()
                 .posts(posts)
                 .build();
+    }
+
+    private List<CommentVo> commentList(Post post) {
+
+        List<Comment> commentList = commentRepository.getComments(post.getPostId());
+        List<CommentVo> comments = new ArrayList<>();
+
+        for (Comment comment : commentList) {
+            Long likeCount = likeRepository.countByComment(comment);
+            Long replyCount = replyRepository.countByComment(comment);
+
+            List<ReplyVo> replies = replyList(comment);
+
+            comments.add(CommentVo.builder()
+                    .comment(comment)
+                    .likeCount(likeCount)
+                    .replies(replies)
+                    .replyCount(replyCount)
+                    .build());
+        }
+
+        return comments;
+    }
+
+    private List<ReplyVo> replyList(Comment comment) {
+
+        List<NestedComment> replyList = replyRepository.getReplies(comment.getId());
+        List<ReplyVo> replies = new ArrayList<>();
+
+        for (NestedComment reply : replyList) {
+            Long likeCount = likeRepository.countByReply(reply);
+
+            replies.add(ReplyVo.builder()
+                    .reply(reply)
+                    .likeCount(likeCount)
+                    .build());
+        }
+
+        return replies;
     }
 }
