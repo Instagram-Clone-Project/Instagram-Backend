@@ -15,10 +15,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HomePostVo {
 
-    @ApiModelProperty( value = "작성자 ID")
+    @ApiModelProperty(position = 1, value = "작성자 ID")
     private String username;
 
-    @ApiModelProperty( value = "작성자 프로필 사진")
+    @ApiModelProperty(position = 2, value = "작성자 프로필 사진")
     private String profileImageUrl;
 
     @ApiModelProperty( value = "게시물 ID")
