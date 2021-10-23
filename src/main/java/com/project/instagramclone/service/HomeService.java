@@ -55,13 +55,13 @@ public class HomeService {
                         .build());
             }
 
-            Long postLikeCount = likeRepository.countByPost(post);
-            Long postCommentCount = commentRepository.countByPost(post);
+            Long likeCount = likeRepository.countByPost(post);
+            Long commentCount = commentRepository.countByPost(post);
 
             List<Comment> commentList = commentRepository.getComments(post.getPostId());
 
             for (Comment comment : commentList) {
-                postCommentCount += replyRepository.countByComment(comment);
+                commentCount += replyRepository.countByComment(comment);
             }
 
             List<CommentVo> comments = commentList(post);
@@ -70,8 +70,8 @@ public class HomeService {
                     .user(user)
                     .post(post)
                     .images(images)
-                    .likeCount(postLikeCount)
-                    .commentCount(postCommentCount)
+                    .likeCount(likeCount)
+                    .commentCount(commentCount)
                     .comments(comments)
                     .build());
         }

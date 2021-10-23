@@ -1,8 +1,10 @@
 package com.project.instagramclone.service;
 
+import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
 import com.project.instagramclone.domain.follow.FollowQueryRepository;
 import com.project.instagramclone.domain.likes.LikeRepository;
+import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
 import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.photo.repository.PhotoRepository;
 import com.project.instagramclone.domain.post.entity.Post;
@@ -32,9 +34,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final CommentQueryRepository commentRepository;
+    private final NestedCommentRepository replyRepository;
     private final FollowQueryRepository followRepository;
     private final LikeRepository likeRepository;
-    private final PhotoRepository photoRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -198,6 +200,12 @@ public class UserService {
         for (Post post : postList) {
             Long likeCount = likeRepository.countByPost(post);
             Long commentCount = commentRepository.countByPost(post);
+
+            List<Comment> commentList = commentRepository.getComments(post.getPostId());
+
+            for (Comment comment : commentList) {
+                commentCount += replyRepository.countByComment(comment);
+            }
 
             List<PostImageVo> images = new ArrayList<>();
 
