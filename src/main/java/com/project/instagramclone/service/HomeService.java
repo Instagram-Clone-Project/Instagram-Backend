@@ -1,5 +1,6 @@
 package com.project.instagramclone.service;
 
+import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.comment.CommentQueryRepository;
 import com.project.instagramclone.domain.likes.LikeRepository;
 import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
@@ -52,12 +53,20 @@ public class HomeService {
             }
 
             Long postLikeCount = likeRepository.countByPost(post);
+            Long postCommentCount = commentRepository.countByPost(post);
+
+            List<Comment> commentList = commentRepository.getComments(post.getPostId());
+
+            for (Comment comment : commentList) {
+                postCommentCount += replyRepository.countByComment(comment);
+            }
 
             posts.add(HomePostVo.builder()
                     .user(user)
                     .post(post)
                     .images(images)
                     .likeCount(postLikeCount)
+                    .commentCount(postCommentCount)
                     .build());
         }
 
