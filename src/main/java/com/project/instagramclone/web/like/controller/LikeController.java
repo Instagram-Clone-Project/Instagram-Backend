@@ -8,22 +8,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = {"좋아요"})
 @RequiredArgsConstructor
-@RequestMapping("/api/like")
+@RequestMapping("/api")
 @RestController
 public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/{postId}")
-    public ResponseEntity<LikeResponseDto> like(@PathVariable Long postId,
-                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return new ResponseEntity<>(likeService.like(postId, principalDetails.getUser().getUserId()), HttpStatus.OK);
+    @GetMapping("/post/{postId}/like")
+    public ResponseEntity<LikeResponseDto> likePost(@PathVariable Long postId,
+                                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return new ResponseEntity<>(likeService.likePost(postId, principalDetails.getUser()), HttpStatus.OK);
+    }
+
+    @GetMapping("/comment/{commentId}/like")
+    public ResponseEntity<LikeResponseDto> likeComment(@PathVariable Long commentId,
+                                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return new ResponseEntity<>(likeService.likeComment(commentId, principalDetails.getUser()), HttpStatus.OK);
+    }
+
+    @GetMapping("/reply/{replyId}/like")
+    public ResponseEntity<LikeResponseDto> likeReply(@PathVariable Long replyId,
+                                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return new ResponseEntity<>(likeService.likeReply(replyId, principalDetails.getUser()), HttpStatus.OK);
     }
 }
