@@ -1,4 +1,4 @@
-package com.project.instagramclone.web.user.dto;
+package com.project.instagramclone.web.auth.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

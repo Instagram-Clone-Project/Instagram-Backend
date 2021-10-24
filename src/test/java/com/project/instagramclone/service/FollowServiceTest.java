@@ -2,17 +2,13 @@ package com.project.instagramclone.service;
 
 import com.project.instagramclone.domain.follow.FollowRepository;
 import com.project.instagramclone.domain.user.UserRepository;
-import com.project.instagramclone.web.user.dto.SignUpRequestDto;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestPropertySource("classpath:application_test.properties")
 @Transactional
