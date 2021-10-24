@@ -2,7 +2,6 @@ package com.project.instagramclone.web.user.controller;
 
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.security.PrincipalDetails;
-import com.project.instagramclone.service.MailService;
 import com.project.instagramclone.service.UserService;
 import com.project.instagramclone.web.user.dto.*;
 import io.swagger.annotations.Api;
