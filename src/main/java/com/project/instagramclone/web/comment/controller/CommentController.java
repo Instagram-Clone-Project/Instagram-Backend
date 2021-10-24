@@ -57,10 +57,4 @@ public class CommentController {
 //    public ResponseEntity<CommentGetDto> getComments(@PathVariable("post_id") Long postId){
 //        return new ResponseEntity<>(commentService.getComments(postId), HttpStatus.OK);
 //    }
-
-
-    @GetMapping("/api/comment/cnt/{post_id}")
-    public Long test(@PathVariable("post_id") Long postId){
-        return commentService.getCommentCount(postId);
-    }
 }

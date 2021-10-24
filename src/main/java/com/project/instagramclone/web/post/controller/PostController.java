@@ -85,11 +85,4 @@ public class PostController {
 //        postService.updatePost(postId, postUpdateDto.getContent());
 //
 //    }
-
-
-    @GetMapping("/test")
-    public List<Post> test (@AuthenticationPrincipal PrincipalDetails userDetails){
-        System.out.println(userDetails.getUser());
-        return postService.queryTest(userDetails.getUser());
-    }
 }
