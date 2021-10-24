@@ -1,4 +1,4 @@
-package com.project.instagramclone.web.user.dto;
+package com.project.instagramclone.web.auth.dto;
 
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRole;

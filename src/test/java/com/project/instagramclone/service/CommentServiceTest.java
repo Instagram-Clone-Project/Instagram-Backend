@@ -9,7 +9,7 @@
 //import com.project.instagramclone.domain.user.UserRepository;
 //import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 //import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
-//import com.project.instagramclone.web.user.dto.SignUpRequestDto;
+//import com.project.instagramclone.web.auth.dto.SignUpRequestDto;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;

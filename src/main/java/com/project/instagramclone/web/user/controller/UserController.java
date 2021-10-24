@@ -16,38 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
-@Api(tags = {"로그인/회원가입"})
+@Api(tags = {"프로필"})
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
 @RestController
 public class UserController {
 
     private final UserService userService;
-    private final MailService mailService;
-
-    @ApiOperation(value = "기본 회원가입")
-    @PostMapping("/signup")
-    public ResponseEntity<SuccessResponseDto> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
-
-        userService.signUp(signUpRequestDto);
-
-        return new ResponseEntity<>(SuccessResponseDto.builder().message("회원가입 완료").build(), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "기본 로그인")
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
-        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "이메일 인증번호 일치 여부 확인")
-    @PostMapping("/signup/mail")
-    public ResponseEntity<SuccessResponseDto> signUpVerifyAccount(@RequestBody VerifyAccountRequestDto accountRequestDto) {
-
-        mailService.verifyAccount(accountRequestDto);
-
-        return new ResponseEntity<>(SuccessResponseDto.builder().message("계정 활성화 완료").build(), HttpStatus.OK);
-    }
 
     @ApiOperation(value = "프로필 편집 (기본 정보)")
     @GetMapping("/profile/edit")
@@ -98,31 +73,6 @@ public class UserController {
         User user = userService.updatePassword(principalDetails.getUser().getUserId(), passwordChangeRequestDto);
 
         principalDetails.setUser(user);
-
-        return new ResponseEntity<>(SuccessResponseDto.builder().message("비밀번호 변경 완료").build(), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "비밀번호 찾기 (이메일 인증번호 전송)")
-    @PostMapping("/password/reset")
-    public ResponseEntity<SuccessResponseDto> resetPassword(@RequestParam String email) {
-
-        userService.resetPassword(email);
-
-        return new ResponseEntity<>(SuccessResponseDto.builder().message("비밀번호 찾기 - 이메일 인증번호 전송 완료").build(),
-                HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "비밀번호 찾기 (인증번호 확인 후 사용자 정보 전송)")
-    @PostMapping("/password/reset/mail")
-    public ResponseEntity<ResetResponseDto> passwordResetVerifyAccount(@RequestBody ResetRequestDto resetRequestDto) {
-        return new ResponseEntity<>(mailService.verifyAccount(resetRequestDto), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "비밀번호 찾기 (비밀번호 변경)")
-    @PostMapping("password/recovery")
-    public ResponseEntity<SuccessResponseDto> recoveryPassword(@RequestBody RecoveryRequestDto recoveryRequestDto) {
-
-        userService.recoveryPassword(recoveryRequestDto);
 
         return new ResponseEntity<>(SuccessResponseDto.builder().message("비밀번호 변경 완료").build(), HttpStatus.OK);
     }
