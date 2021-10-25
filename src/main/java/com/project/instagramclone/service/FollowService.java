@@ -5,6 +5,8 @@ import com.project.instagramclone.domain.follow.FollowQueryRepository;
 import com.project.instagramclone.domain.follow.FollowRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
+import com.project.instagramclone.exception.CustomException;
+import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.web.follow.dto.FollowCntDto;
 import com.project.instagramclone.web.follow.dto.FollowSaveDto;
 import com.project.instagramclone.web.follow.dto.FollowerListDto;
@@ -30,7 +32,7 @@ public class FollowService {
 
     @Transactional
     public void save(User fromUser, Long toUserId){
-        User toUser = userRepository.findById(toUserId).orElseThrow(()-> new IllegalArgumentException("해당하는 유저가 없습니다"));
+        User toUser = userRepository.findById(toUserId).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         FollowSaveDto followSaveDto = new FollowSaveDto();
         followSaveDto.setFromUser(fromUser);
@@ -43,10 +45,10 @@ public class FollowService {
 
     @Transactional
     public void delete(User fromUser, Long toUserId){
-        User toUser = userRepository.findById(toUserId).orElseThrow(()-> new IllegalArgumentException("해당하는 유저가 없습니다"));
+        User toUser = userRepository.findById(toUserId).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Follow followTableId = followQueryRepository.findFollowTableId(fromUser.getUserId(), toUserId)
-                .orElseThrow(()-> new IllegalArgumentException("해당 팔로우 정보가 없습니다"));
+                .orElseThrow(()-> new CustomException(ErrorCode.FOLLOW_NOT_FOUND));
 
         followRepository.delete(followTableId);
     }
@@ -73,8 +75,7 @@ public class FollowService {
             if(f.getFollowing().getUserId() == loginUser.getUserId()) continue; // 자기 자신 스킵
 
             FollowerListDto tmp = new FollowerListDto();
-            log.info(f.getFollowing().getUserId()+" "+f.getFollower().getUserId());
-            User user = userRepository.findById(f.getFollowing().getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 유저가 없습니다"));
+            User user = userRepository.findById(f.getFollowing().getUserId()).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
             tmp.setUsername(user.getUsername());
             tmp.setProfileImageUrl(user.getProfileImageUrl());
@@ -110,8 +111,7 @@ public class FollowService {
 
             FollowingListDto tmp = new FollowingListDto();
 
-            User user = userRepository.findById(f.getFollower().getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 유저가 없습니다"));
-            log.info(loginUser.getUserId()+" "+f.getFollowing().getUserId() +" "+f.getFollower().getUserId());
+            User user = userRepository.findById(f.getFollower().getUserId()).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
             tmp.setUsername(user.getUsername());
             tmp.setProfileImageUrl(user.getProfileImageUrl());

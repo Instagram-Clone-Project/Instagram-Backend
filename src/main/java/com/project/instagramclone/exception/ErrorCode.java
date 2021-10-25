@@ -21,6 +21,7 @@ public enum ErrorCode {
 
     //404 NOT_FOUND : Resource 를 찾을 수 없음
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다."),
+    FOLLOW_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 팔로우 정보를 찾을 수 없습니다."),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
     REPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 답글을 찾을 수 없습니다."),

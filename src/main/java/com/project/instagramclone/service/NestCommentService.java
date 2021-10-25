@@ -11,6 +11,8 @@ import com.project.instagramclone.domain.nestedcomment.NestedCommentRepository;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.exception.CustomException;
+import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentSaveDto;
 import com.project.instagramclone.web.nestedcomment.dto.NestedCommentUpdateDto;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +29,7 @@ public class NestCommentService {
     @Transactional
     public void nestedCommentSave(User user, Long postId, Long parentCommentId, NestedCommentSaveDto nestedCommentSaveDto){
 
-        Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다"));
-        Comment parent = commentRepository.findById(parentCommentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
+        Comment parent = commentRepository.findById(parentCommentId).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
         NestedComment children = nestedCommentSaveDto.toEntity();
         children.setUser(user);
@@ -39,7 +40,7 @@ public class NestCommentService {
     @Transactional
     public void nestedCommentUpdate(Long commentId, NestedCommentUpdateDto nestedCommentUpdateDto){
 
-        NestedComment nestedComment = nestedCommentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
+        NestedComment nestedComment = nestedCommentRepository.findById(commentId).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
         nestedComment.update(nestedCommentUpdateDto);
     }
@@ -47,7 +48,7 @@ public class NestCommentService {
     @Transactional
     public void nestedCommentDelete(Long commentId){
 
-        NestedComment comment = nestedCommentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException("해당 댓글이 없습니다"));
+        NestedComment comment = nestedCommentRepository.findById(commentId).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         nestedCommentRepository.delete(comment);
 
     }
