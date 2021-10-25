@@ -28,7 +28,7 @@ public class NestedCommentController {
     private final NestCommentService nestCommentService;
 
     @ApiOperation(value = "대댓글 작성", notes = "대댓글 작성입니다. {post_id}에는 대댓글을 작성할 게시글 pk입니다.  {parent_id}에는 대댓글을 작성할 부모 댓글 pk값입니다.")
-    @PostMapping("/api/{parent_id}/nestedcomment")
+    @PostMapping("/api/reply/{parent_id}/")
     public ResponseEntity<SuccessResponseDto> nestedCommentSave(@AuthenticationPrincipal PrincipalDetails userDetails , @PathVariable("parent_id")Long parentId,
                                                                 @PathVariable("post_id") Long postId, @RequestBody NestedCommentSaveDto nestedCommentSaveDto){
 
@@ -39,7 +39,7 @@ public class NestedCommentController {
     }
 
     @ApiOperation(value = "대댓글 수정", notes = "대댓글 수정입니다. {comment_id}에는 수정할 대댓글 pk값 입니다.")
-    @PutMapping("/api/{comment_id}/nestedcomment")
+    @PutMapping("/api/reply/{comment_id}")
     public ResponseEntity<SuccessResponseDto> nestedCommentUpdate(@PathVariable("comment_id") Long commentId,
                                     @RequestBody NestedCommentUpdateDto nestedCommentUpdateDto){
         nestCommentService.nestedCommentUpdate(commentId,nestedCommentUpdateDto);
@@ -48,7 +48,7 @@ public class NestedCommentController {
     }
 
     @ApiOperation(value = "대댓글 삭제", notes = "대댓글 삭제입니다. {comment_id}에는 삭제할 대댓글 pk값 입니다.")
-    @DeleteMapping("/api/{comment_id}/nestedcomment")
+    @DeleteMapping("/api/rely/{comment_id}")
     public ResponseEntity<SuccessResponseDto> nestedCommentDelete(@PathVariable("comment_id") Long commentId){
         nestCommentService.nestedCommentDelete(commentId);
         return new ResponseEntity<>(SuccessResponseDto.builder().message("대댓글 삭제 완료").build(), HttpStatus.OK);
