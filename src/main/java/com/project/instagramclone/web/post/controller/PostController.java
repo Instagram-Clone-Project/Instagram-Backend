@@ -6,6 +6,8 @@ import com.project.instagramclone.service.*;
 import com.project.instagramclone.security.PrincipalDetails;
 import com.project.instagramclone.web.post.dto.PostSaveDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
+import com.project.instagramclone.web.post.dto.PostUpdateDto;
+import com.project.instagramclone.web.user.dto.SuccessResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +30,25 @@ public class PostController {
     private final CommentService commentService;
     private final FileUploadService fileUploadService;
 
+
+    @ApiOperation(value = "게시글 수정", notes = "게시글 수정입니다.")
+    @PutMapping("/api/post/{post_id}")
+    public ResponseEntity<SuccessResponseDto> postUpdate(
+            @AuthenticationPrincipal PrincipalDetails userDetails,
+            @RequestBody PostUpdateDto postUpdateDto, @PathVariable("post_id") Long postId){
+
+        User user = userDetails.getUser();
+        postService.postUpdate(postUpdateDto,user,postId);
+
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("수정이 완료되었습니다").build(),HttpStatus.OK);
+    }
+
+
     @ApiOperation(value = "게시글 작성", notes = "게시글 작성입니다.")
     @PostMapping("/api/post")
-    public ResponseEntity<String> postSave(@ModelAttribute PostSaveDto postSaveDto, @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
-        Post post = new Post();
-        post.setContent(postSaveDto.getContent());
+    public ResponseEntity<SuccessResponseDto> postSave(@RequestBody PostSaveDto postSaveDto, @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
 
+        Post post = postSaveDto.toEntity();
         User user = userDetails.getUser();
         post.setUser(user);
 
@@ -44,17 +59,17 @@ public class PostController {
 
         postService.postSave(post);
 
-        return new ResponseEntity<>("게시글 작성 성공", HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("글 등록이 완료되었습니다").build(),HttpStatus.OK);
     }
 
 
     @ApiOperation(value = "게시글 삭제", notes = "{post_id}에는 지워질 post의 pk값입니다. post와 연관된 photo 데이터, comment 데이터도 삭제됩니다.")
     @DeleteMapping("/api/post/{post_id}")
-    public ResponseEntity<String> postDelete(@PathVariable("post_id") Long postId) {
+    public ResponseEntity<SuccessResponseDto> postDelete(@PathVariable("post_id") Long postId) {
         Post findPost = postService.findOne(postId);
         postService.removePost(findPost);
 
-        return new ResponseEntity<>("게시글 삭제 성공", HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponseDto.builder().message("삭제가 완료되었습니다").build(),HttpStatus.OK);
     }
 
     @ApiOperation(value = "게시글 조회")

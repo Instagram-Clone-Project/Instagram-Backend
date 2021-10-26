@@ -8,8 +8,7 @@ import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.likes.Likes;
 import com.project.instagramclone.domain.photo.entity.Photo;
 import com.project.instagramclone.domain.user.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 import javax.persistence.*;
@@ -17,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)    // 양방향 루프 방지
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Post extends BaseTimeEntity {
 
     @Id @GeneratedValue
@@ -41,10 +43,13 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void setMember(User user) {
+    public void setUser(User user) {
 //        user.getPosts.add(this);
         this.user = user;
     }
 
+    public void update(String content){
+        this.content = content;
+    }
 
 }

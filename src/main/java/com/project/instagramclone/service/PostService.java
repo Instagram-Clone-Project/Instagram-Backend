@@ -6,8 +6,11 @@ import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.photo.repository.PhotoRepository;
 import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.exception.CustomException;
+import com.project.instagramclone.exception.ErrorCode;
 import com.project.instagramclone.web.post.dto.CommentDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
+import com.project.instagramclone.web.post.dto.PostUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,27 +28,43 @@ public class PostService {
     private final CommentQueryRepository commentQueryRepository;
 
     @Transactional
-    public Long postSave(Post post) {
+    public void postSave(Post post) {
         postRepository.save(post);
-        return post.getPostId();
     }
+
+    /*
+           postUpdate-  수혁
+     */
+    @Transactional
+    public void postUpdate(PostUpdateDto postUpdateDto, User user, Long postId){
+        Post post = postRepository.findById(postId).orElseThrow(()->new CustomException(ErrorCode.POST_NOT_FOUND));
+
+        // 게시글 작성자가 아닌 사람이 수정하려 할 시 걸러내기
+        if(post.getUser().getUserId() != user.getUserId()){
+            throw new CustomException(ErrorCode.NOT_CERTIFIED_USER);
+        }
+
+        post.update(postUpdateDto.getContent());
+    }
+
+
 
     @Transactional
     public void removePost(Post post) {
         postRepository.delete(post);
     }
 
-    @Transactional
-    public void updatePost(Long id, String content) {
-//        Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
-        Post findPost = findOne(id);
-        findPost.setContent(content);
-//        findPost.setPhoto(photo);
-//        findPost.setModifiedDate(LocalDateTime.now());
-    }
+//    @Transactional
+//    public void updatePost(Long id, String content) {
+////        Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+////        Post findPost = findOne(id);
+////        findPost.setContent(content);
+////        findPost.setPhoto(photo);
+////        findPost.setModifiedDate(LocalDateTime.now());
+//    }
     @Transactional
     public Post findOne(Long postId) {
-        return postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
+        return postRepository.findById(postId).orElseThrow(()-> new CustomException(ErrorCode.POST_NOT_FOUND));
     }
     @Transactional
     public List<Post> findAllPost(Long userId) {
@@ -73,20 +92,5 @@ public class PostService {
         }
 
         return postShowDtoList;
-    }
-
-    /*
-          수혁
-     */
-
-    @Transactional
-    public List<Post> queryTest(User user){
-        System.out.println(user.getUserId());
-
-        List<Post> postHomePage = postRepository.findPostHomePage(user.getUserId());
-
-
-
-        return postHomePage;
     }
 }
