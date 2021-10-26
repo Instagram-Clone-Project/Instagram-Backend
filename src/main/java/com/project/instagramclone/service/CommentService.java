@@ -9,6 +9,7 @@ import com.project.instagramclone.domain.comment.CommentRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
+import com.project.instagramclone.web.Validation;
 import com.project.instagramclone.web.comment.dto.CommentGetDto;
 import com.project.instagramclone.web.comment.dto.CommentSaveDto;
 import com.project.instagramclone.web.comment.dto.CommentUpdateDto;
@@ -31,7 +32,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final CommentQueryRepository commentQueryRepository;
-
+    private final Validation validation;
     @Transactional
     public Comment findById(Long id){
         return commentRepository.findById(id).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
@@ -51,40 +52,16 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment commentUpdate(Long comment_id, CommentUpdateDto commentUpdateDto){
+    public void commentUpdate(Long comment_id, CommentUpdateDto commentUpdateDto, User user){
         Comment comment = commentRepository.findById(comment_id).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+        validation.userValidationCheck(comment.getUser().getUserId(), user.getUserId());
         comment.update(commentUpdateDto.getContent());
-        return comment;
     }
 
     @Transactional
-    public void commentDelete(Long commentId) {
+    public void commentDelete(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
-
+        validation.userValidationCheck(comment.getUser().getUserId(), user.getUserId());
         commentRepository.delete(comment);
     }
-
-    public Long getCommentCount(Long postId){
-        Long cnt = 0L;
-        List<Comment> comment = commentQueryRepository.getComments(postId); // 댓글
-
-        for(Comment c : comment){
-            cnt++;
-            for(NestedComment nestedComment : c.getReply()){
-                cnt++;
-              }
-        }
-
-        return cnt;
-    }
-
-
-    /**
-     * 박준순이 만든거임
-     */
-    public List<CommentDto> findAllComments(Long postId) {
-        return commentQueryRepository.findCommentByPostId(postId);
-    }
-
-
 }

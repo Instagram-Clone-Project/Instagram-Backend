@@ -37,16 +37,18 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 수정", notes = "댓글 수정입니다. {comment_id}에는 댓글을 수정할 댓글 pk값입니다.")
     @PutMapping("/api/comment/{comment_id}")
-    public ResponseEntity<SuccessResponseDto>  commentUpdate(@PathVariable("comment_id") Long commentId, @RequestBody CommentUpdateDto updateDto){
-
-        commentService.commentUpdate(commentId,updateDto);
+    public ResponseEntity<SuccessResponseDto>  commentUpdate(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("comment_id") Long commentId, @RequestBody CommentUpdateDto updateDto){
+        User user = userDetails.getUser();
+        commentService.commentUpdate(commentId,updateDto,user);
         return new ResponseEntity<>(SuccessResponseDto.builder().message("댓글 수정완료").build(), HttpStatus.OK);
 
     }
     @ApiOperation(value = "댓글 삭제", notes = "댓글 삭제입니다. {comment_id}에는 댓글을 삭제할 댓글 pk값입니다.")
     @DeleteMapping("/api/comment/{comment_id}")
-    public ResponseEntity<SuccessResponseDto> commentDelete(@PathVariable("comment_id") Long commentId){
-         commentService.commentDelete(commentId);
+    public ResponseEntity<SuccessResponseDto> commentDelete(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("comment_id") Long commentId){
+
+        User user = userDetails.getUser();
+        commentService.commentDelete(commentId,user);
         return new ResponseEntity<>(SuccessResponseDto.builder().message("댓글 삭제완료").build(), HttpStatus.OK);
 
     }
