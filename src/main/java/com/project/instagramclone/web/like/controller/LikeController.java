@@ -42,11 +42,7 @@ public class LikeController {
         return new ResponseEntity<>(likeService.likeReply(replyId, principalDetails.getUser()), HttpStatus.OK);
     }
 
-    @GetMapping("/test")
-    public ActivityDto test(@AuthenticationPrincipal PrincipalDetails principalDetails){
-        User user =  principalDetails.getUser();
-        return likeService.test(user);
-    }
+
 //    @ApiOperation(value = "좋아요 알림 목록 확인")
 //    public ResponseEntity<>
 }

@@ -29,5 +29,5 @@ public interface FollowQueryRepository extends JpaRepository<Follow,Long> {
 
     @Query("select f from Follow f where f.following.userId =:fromUserId and f.follower.userId =:toUserId")
     public Optional<Follow> findRelation(@Param("fromUserId") Long fromUserId, @Param("toUserId") Long toUserId);
-    
+
 }
