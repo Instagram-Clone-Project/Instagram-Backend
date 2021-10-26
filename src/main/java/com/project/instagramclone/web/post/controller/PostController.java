@@ -65,10 +65,9 @@ public class PostController {
 
     @ApiOperation(value = "게시글 삭제", notes = "{post_id}에는 지워질 post의 pk값입니다. post와 연관된 photo 데이터, comment 데이터도 삭제됩니다.")
     @DeleteMapping("/api/post/{post_id}")
-    public ResponseEntity<SuccessResponseDto> postDelete(@PathVariable("post_id") Long postId) {
-        Post findPost = postService.findOne(postId);
-        postService.removePost(findPost);
-
+    public ResponseEntity<SuccessResponseDto> postDelete(@AuthenticationPrincipal PrincipalDetails userDetails,@PathVariable("post_id") Long postId) {
+        User user = userDetails.getUser();
+        postService.deletePost(postId,user);
         return new ResponseEntity<>(SuccessResponseDto.builder().message("삭제가 완료되었습니다").build(),HttpStatus.OK);
     }
 
@@ -78,26 +77,4 @@ public class PostController {
         User user = userDetails.getUser();
         return postService.getPostList(user.getUserId());
     }
-
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ErrorResult illegalHandle(IllegalArgumentException e) {
-//        return new ErrorResult("ERROR", "내부 오류");
-//    }
-
-
-//    @GetMapping("/api/post/{post_id}")
-//    public void postShow(@PathVariable("post_id") Long postId) {
-//        Post findPost = postService.findOne(postId);
-//    }
-
-
-    /**
-     * 수정 프로세스 알고난 후 진행 예정
-     */
-//    @PutMapping("/api/post/{post_id}")
-//    public void postUpdate(@RequestBody PostUpdateDto postUpdateDto, @PathVariable("post_id") Long postId) {
-//        postService.updatePost(postId, postUpdateDto.getContent());
-//
-//    }
 }

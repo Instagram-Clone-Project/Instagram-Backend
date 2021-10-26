@@ -8,6 +8,7 @@ import com.project.instagramclone.domain.post.repository.PostRepository;
 import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
+import com.project.instagramclone.web.Validation;
 import com.project.instagramclone.web.post.dto.CommentDto;
 import com.project.instagramclone.web.post.dto.PostShowDto;
 import com.project.instagramclone.web.post.dto.PostUpdateDto;
@@ -26,6 +27,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final PhotoRepository photoRepository;
     private final CommentQueryRepository commentQueryRepository;
+    private final Validation validation;
+
 
     @Transactional
     public void postSave(Post post) {
@@ -35,14 +38,15 @@ public class PostService {
     /*
            postUpdate-  수혁
      */
+
+
+
     @Transactional
     public void postUpdate(PostUpdateDto postUpdateDto, User user, Long postId){
         Post post = postRepository.findById(postId).orElseThrow(()->new CustomException(ErrorCode.POST_NOT_FOUND));
 
         // 게시글 작성자가 아닌 사람이 수정하려 할 시 걸러내기
-        if(post.getUser().getUserId() != user.getUserId()){
-            throw new CustomException(ErrorCode.NOT_CERTIFIED_USER);
-        }
+        validation.userValidationCheck(post.getUser().getUserId(), user.getUserId());
 
         post.update(postUpdateDto.getContent());
     }
@@ -50,7 +54,9 @@ public class PostService {
 
 
     @Transactional
-    public void removePost(Post post) {
+    public void deletePost(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(()-> new CustomException(ErrorCode.POST_NOT_FOUND));
+        validation.userValidationCheck(post.getUser().getUserId(),user.getUserId());
         postRepository.delete(post);
     }
 
