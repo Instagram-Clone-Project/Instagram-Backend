@@ -33,24 +33,28 @@ public class NestedCommentController {
                                                                 @PathVariable("post_id") Long postId, @RequestBody NestedCommentSaveDto nestedCommentSaveDto){
 
         User user = userDetails.getUser();
-        nestCommentService.nestedCommentSave(user, postId,parentId, nestedCommentSaveDto);
+        nestCommentService.nestedCommentSave(user,parentId,nestedCommentSaveDto);
 
         return new ResponseEntity<>(SuccessResponseDto.builder().message("대댓글 작성 완료").build(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "대댓글 수정", notes = "대댓글 수정입니다. {comment_id}에는 수정할 대댓글 pk값 입니다.")
     @PutMapping("/api/reply/{comment_id}")
-    public ResponseEntity<SuccessResponseDto> nestedCommentUpdate(@PathVariable("comment_id") Long commentId,
+    public ResponseEntity<SuccessResponseDto> nestedCommentUpdate(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("comment_id") Long commentId,
                                     @RequestBody NestedCommentUpdateDto nestedCommentUpdateDto){
-        nestCommentService.nestedCommentUpdate(commentId,nestedCommentUpdateDto);
+        User user = userDetails.getUser();
+
+        nestCommentService.nestedCommentUpdate(user,commentId,nestedCommentUpdateDto);
         return new ResponseEntity<>(SuccessResponseDto.builder().message("대댓글 수정 완료").build(), HttpStatus.OK);
 
     }
 
     @ApiOperation(value = "대댓글 삭제", notes = "대댓글 삭제입니다. {comment_id}에는 삭제할 대댓글 pk값 입니다.")
     @DeleteMapping("/api/rely/{comment_id}")
-    public ResponseEntity<SuccessResponseDto> nestedCommentDelete(@PathVariable("comment_id") Long commentId){
-        nestCommentService.nestedCommentDelete(commentId);
+    public ResponseEntity<SuccessResponseDto> nestedCommentDelete(@AuthenticationPrincipal PrincipalDetails userDetails, @PathVariable("comment_id") Long commentId){
+        User user = userDetails.getUser();
+
+        nestCommentService.nestedCommentDelete(user,commentId);
         return new ResponseEntity<>(SuccessResponseDto.builder().message("대댓글 삭제 완료").build(), HttpStatus.OK);
     }
 }
