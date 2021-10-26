@@ -4,10 +4,12 @@ import com.project.instagramclone.domain.comment.Comment;
 import com.project.instagramclone.domain.nestedcomment.NestedComment;
 import com.project.instagramclone.domain.post.entity.Post;
 import com.project.instagramclone.domain.user.User;
+import com.project.instagramclone.web.activity.dto.ActivityListDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Likes, Long> {
@@ -34,4 +36,11 @@ public interface LikeRepository extends JpaRepository<Likes, Long> {
 //    Long countByReply(@Param("replyId") Long replyId);
 
     Long deleteByUserAndPost(User user, Post post);
+
+
+    @Query("select l from Likes l join fetch l.post p join fetch l.user u join fetch p.photos where p.user.userId in :userId")
+    List<Likes> getPostLike(@Param("userId") Long userId);
+
+    @Query("select l from Likes l join fetch l.comment c join fetch l.user u where c.user.userId in :userId")
+    List<Likes> getCommentLike(@Param("userId") Long userId);
 }

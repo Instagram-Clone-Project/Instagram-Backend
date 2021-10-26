@@ -1,7 +1,9 @@
 package com.project.instagramclone.web.like.controller;
 
+import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.security.PrincipalDetails;
 import com.project.instagramclone.service.LikeService;
+import com.project.instagramclone.web.activity.dto.ActivityDto;
 import com.project.instagramclone.web.like.dto.LikeResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,4 +41,12 @@ public class LikeController {
                                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
         return new ResponseEntity<>(likeService.likeReply(replyId, principalDetails.getUser()), HttpStatus.OK);
     }
+
+    @GetMapping("/test")
+    public ActivityDto test(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        User user =  principalDetails.getUser();
+        return likeService.test(user);
+    }
+//    @ApiOperation(value = "좋아요 알림 목록 확인")
+//    public ResponseEntity<>
 }

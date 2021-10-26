@@ -1,5 +1,6 @@
 package com.project.instagramclone.domain.follow;
 
+        import com.project.instagramclone.domain.BaseTimeEntity;
         import com.project.instagramclone.domain.user.User;
         import lombok.AllArgsConstructor;
         import lombok.Builder;
@@ -14,7 +15,7 @@ package com.project.instagramclone.domain.follow;
 @Getter
 @Builder
 @AllArgsConstructor
-public class Follow {
+public class Follow extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -7,6 +7,7 @@ import com.project.instagramclone.domain.user.User;
 import com.project.instagramclone.domain.user.UserRepository;
 import com.project.instagramclone.exception.CustomException;
 import com.project.instagramclone.exception.ErrorCode;
+import com.project.instagramclone.web.Validation;
 import com.project.instagramclone.web.follow.dto.FollowCntDto;
 import com.project.instagramclone.web.follow.dto.FollowSaveDto;
 import com.project.instagramclone.web.follow.dto.FollowerListDto;
@@ -29,7 +30,6 @@ public class FollowService {
     private final UserRepository userRepository;
     private final FollowQueryRepository followQueryRepository;
 
-
     @Transactional
     public void save(User fromUser, Long toUserId){
         User toUser = userRepository.findById(toUserId).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
@@ -47,10 +47,10 @@ public class FollowService {
     public void delete(User fromUser, Long toUserId){
         User toUser = userRepository.findById(toUserId).orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Follow followTableId = followQueryRepository.findFollowTableId(fromUser.getUserId(), toUserId)
+        Follow follow = followQueryRepository.findFollowTableId(fromUser.getUserId(), toUserId)
                 .orElseThrow(()-> new CustomException(ErrorCode.FOLLOW_NOT_FOUND));
 
-        followRepository.delete(followTableId);
+        followRepository.delete(follow);
     }
 
     @Transactional
